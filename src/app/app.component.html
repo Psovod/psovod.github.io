@@ -1,23 +1,18 @@
-<div class="portfolio text-center p-5">
-  <h1 class="text-4xl font-bold mb-5">My App Portfolio</h1>
-
-  <section class="app-showcase mb-10">
-    <h2 class="text-2xl font-semibold mb-2">App Name</h2>
-    <p class="text-lg mb-5">Description of the app and its features.</p>
-
-    <div class="media flex justify-center gap-5 mb-5">
-      <img src="assets/images/app-screenshot.png" alt="App Screenshot" class="max-w-full h-auto">
-      <img src="assets/images/app-gif.gif" alt="App GIF" class="max-w-full h-auto">
-    </div>
-
-    <div class="code-snippet bg-gray-100 p-5 rounded-lg text-left">
-      <h3 class="text-xl font-medium mb-3">Code Snippet</h3>
-      <pre><code class="block p-2 bg-gray-200 rounded">
-        // Example code snippet
-        function exampleFunction() 
-          console.log('Hello, world!');
-        
-      </code></pre>
-    </div>
-  </section>
+<mat-toolbar class="sticky top-0" [class.hidden-toolbar]="!toolbarVisible()">
+  <span>Pavel Šindelář</span>
+  <span class="flex-grow flex-shrink"></span>
+  <a
+    [href]="LINKEDIN_URL"
+    target="_blank"
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon">
+    <mat-icon svgIcon="linkedin"></mat-icon>
+  </a>
+  <a [href]="GITHUB_URL" target="_blank" mat-icon-button aria-label="Example icon-button with share icon">
+    <mat-icon svgIcon="github"></mat-icon>
+  </a>
+</mat-toolbar>
+<div class="bg-slate-200 text-center p-5 h-lvh rounded">
+  <router-outlet></router-outlet>
 </div>

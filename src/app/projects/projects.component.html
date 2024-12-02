@@ -1,0 +1,35 @@
+<section class="app-showcase mb-10">
+  <div class="grid grid-cols-2 gap-4 p-4">
+    @for (project of projects; track $index) {
+
+    <mat-card class="cursor-pointer p-8 relative">
+      <a [routerLink]="['/projects/' + project.id]" class="absolute right-4 top-4">
+        <mat-icon>open_in_new</mat-icon>
+      </a>
+      <div class="flex flex-col gap-2">
+        <div class="flex flex-col justify-start">
+          <div class="text-3xl flex py-2">{{ project.name }}</div>
+          <div class="text-sm text-justify line-clamp-1">{{ project.description }}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex flex-col h-full">
+          <!-- Project Content Section -->
+          <div class="flex flex-wrap gap-1 flex-grow">
+            @for (technology of project.technologies; track $index) {
+            <mat-chip>
+              <mat-icon matChipAvatar [svgIcon]="technology.icon"></mat-icon>
+              {{ technology.name }}
+            </mat-chip>
+            }
+          </div>
+
+          <!-- GitHub Icon Section -->
+          <div class="flex items-center self-end mt-2">
+            <mat-icon svgIcon="github" class="mr-1"></mat-icon>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    }
+  </div>
+</section>
