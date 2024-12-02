@@ -6,11 +6,30 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [],
-  imports: [MatButtonModule, MatCardModule, MatIconModule, MatSlideToggleModule, MatToolbarModule, MatDividerModule, MatChipsModule],
-  exports: [MatButtonModule, MatCardModule, MatIconModule, MatSlideToggleModule, MatToolbarModule, MatDividerModule, MatChipsModule],
+  imports: [
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatDividerModule,
+    MatChipsModule,
+    MatExpansionModule,
+  ],
+  exports: [
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatDividerModule,
+    MatChipsModule,
+    MatExpansionModule,
+  ],
   providers: [],
 })
 export class MaterialModule {}

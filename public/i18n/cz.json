@@ -1,0 +1,14 @@
+{
+	"app.bagrak.description": "Zemní práce Bagrák je webová stránka zaměřená na prezentaci zemních prací. Nabízí informace o používaných strojích, interaktivní mapu s aktuálními i dokončenými pracovními úseky, galerii fotografií hotových projektů jako reference a formulář pro snadné zadávání požadavků či dotazů.",
+	"app.bagrak.summary": "Prezentace zemních prací.",
+	"app.bagrak.title": "Zemní práce Bagrák",
+	"app.birdrockres.description": "Birdrockres je webová aplikace navržená pro správu nemovitostí, zaměřená především na efektivní správu pronajímaných nemovitostí. Postavena na frameworku Angular, nabízí komplexní řešení pro vlastníky nemovitostí i nájemce. Umožňuje nahrávání a správu dokumentů souvisejících s nemovitostmi, sleduje inspekce a organizuje fotografickou dokumentaci ve vysokém rozlišení.\n\nKlíčové funkce zahrnují pokročilou možnost kategorizace a označování dat pro snadnější orientaci, uživatelsky přívětivé rozhraní a bezproblémové sdílení dokumentů bez nutnosti instalace dalšího softwaru – vše dostupné přímo přes webový prohlížeč. Tato aplikace byla vyvinuta jako součást osobního portfolia a demonstruje odborné znalosti vývoje v Angularu, s důrazem na tvorbu škálovatelných, funkčních a uživatelsky orientovaných webových aplikací.",
+	"app.birdrockres.summary": "Aplikace pro správu nemovitostí.",
+	"app.birdrockres.title": "Webová aplikace Birdrockres",
+	"app.birdrockres_mobile.description": "Mobilní aplikace Birdrockres je progresivní webová aplikace (PWA) navržená jako doplněk webové platformy Birdrockres, která nabízí mobilní řešení pro správu nemovitostí na cestách. Aplikace, vyvinutá pomocí frameworku Ionic, poskytuje plynulý uživatelský zážitek napříč různými zařízeními, což umožňuje majitelům nemovitostí a nájemníkům přístup k hlavním funkcím a možnostem přímo z jejich chytrých telefonů nebo tabletů.",
+	"app.birdrockres_mobile.summary": "Mobilní aplikace pro správu nemovitostí.",
+	"app.birdrockres_mobile.title": "Mobilní aplikace Birdrockres",
+	"app.nbazar.description": "NBazar je webová aplikace navržená pro nákup a prodej nemovitost, která poskytuje efektivní platformu pro nákup, prodej a správu položek. Postavená na frameworku Angular nabízí robustní funkce a uživatelsky přívětivý design, zaměřený na jednotlivce a malé podniky hledající efektivní řešení pro online obchodování.\n\nKlíčové funkce zahrnují responzivní rozhraní, pokročilou kategorizaci položek, bezproblémové nahrávání obrázků a vyhledávací možnosti. Aplikace klade důraz na jednoduchost a dostupnost, což zajišťuje plynulý uživatelský zážitek. Vyvinuta jako součást osobního portfoliového projektu, NBazar zdůrazňuje odborné znalosti v oblasti vývoje v Angularu a ukazuje schopnost vytvářet škálovatelná a uživatelsky orientovaná webová řešení.",
+	"app.nbazar.summary": "Aplikace pro nákup a prodej nemovitosti",
+	"app.nbazar.title": "NBazar"
+}

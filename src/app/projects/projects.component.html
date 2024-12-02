@@ -2,15 +2,20 @@
   <div class="grid grid-cols-2 gap-4 p-4">
     @for (project of projects; track $index) {
 
-    <mat-card class="cursor-pointer p-8 relative">
+    <mat-card class="p-8 relative">
       <a [routerLink]="['/projects/' + project.id]" class="absolute right-4 top-4">
         <mat-icon>open_in_new</mat-icon>
       </a>
       <div class="flex flex-col gap-2">
-        <div class="flex flex-col justify-start">
-          <div class="text-3xl flex py-2">{{ project.name }}</div>
-          <div class="text-sm text-justify line-clamp-1">{{ project.description }}</div>
-        </div>
+        <mat-accordion class="my-4">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title [translate]="project._i18n + '.title'"></mat-panel-title>
+              <mat-panel-description [translate]="project._i18n + '.summary'"></mat-panel-description>
+            </mat-expansion-panel-header>
+            <p class="text-sm text-justify" [translate]="project._i18n + '.description'"></p>
+          </mat-expansion-panel>
+        </mat-accordion>
         <mat-divider></mat-divider>
         <div class="flex flex-col h-full">
           <!-- Project Content Section -->

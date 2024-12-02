@@ -1,6 +1,7 @@
 <mat-toolbar class="sticky top-0" [class.hidden-toolbar]="!toolbarVisible()">
   <span>Pavel Šindelář</span>
   <span class="flex-grow flex-shrink"></span>
+  <button mat-button (click)="useLanguage()">{{ language() }}</button>
   <a
     [href]="LINKEDIN_URL"
     target="_blank"

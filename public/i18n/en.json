@@ -1,0 +1,14 @@
+{
+	"app.bagrak.description": "Zemní práce Bagrák is a website focused on showcasing earthwork services. It provides information about the machinery used, an interactive map of current and completed work areas, a photo gallery of finished projects as references, and a form for easily submitting requests or inquiries.",
+	"app.bagrak.summary": "Earthwork services showcase.",
+	"app.bagrak.title": "Earthwork Bagrák",
+	"app.birdrockres.description": "Birdrockres is a web-based application designed for property management, specifically tailored to streamline the management of rental properties. Built using the Angular framework, the application offers a comprehensive solution for property owners and tenants. It facilitates the upload and management of property-related documents, tracks inspections, and organizes photographic documentation with high resolution.\n\nKey features include advanced functionality to categorize and label data for easier navigation, a user-friendly interface, and seamless document sharing without requiring the recipient to install additional software—accessible directly through a web browser. Developed as part of a personal portfolio project, this application showcases expertise in Angular development, demonstrating the ability to build scalable, functional, and user-focused web applications.",
+	"app.birdrockres.summary": "Property management application.",
+	"app.birdrockres.title": "Birdrockres web app",
+	"app.birdrockres_mobile.description": "The Birdrockres Mobile App is a progressive web application (PWA) designed to complement the Birdrockres web platform, offering a mobile-friendly solution for property management on the go. Developed using the Ionic framework, the app provides a seamless user experience across various devices, enabling property owners and tenants to access key features and functionalities from their smartphones or tablets.",
+	"app.birdrockres_mobile.summary": "Mobile application for property management.",
+	"app.birdrockres_mobile.title": "Birdrockres Mobile App",
+	"app.nbazar.description": "NBazar is a web-based application designed for or buying and selling real estate management, providing a streamlined platform for buying, selling, and managing items. Built using the Angular framework, it showcases robust functionality and a user-centric design, catering to individuals and small businesses looking for an efficient solution for online trading.\n\nKey features include a responsive interface, advanced item categorization, seamless image uploads, and search capabilities. The application emphasizes simplicity and accessibility, ensuring a smooth user experience. Developed as part of a personal portfolio project, NBazar highlights expertise in Angular development, demonstrating proficiency in creating scalable and user-focused web solutions.",
+	"app.nbazar.summary": "An application for buying and selling real estate.",
+	"app.nbazar.title": "NBazar"
+}

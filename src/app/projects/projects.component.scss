@@ -1,0 +1,5 @@
+@use '@angular/material' as mat;
+
+:host {
+    @include mat.chips-overrides((with-avatar-avatar-shape-radius: none));
+}

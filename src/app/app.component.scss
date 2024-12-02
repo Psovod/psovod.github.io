@@ -1,3 +1,10 @@
+@use '@angular/material' as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:host {
+    @include mat.button-overrides((text-label-text-transform: uppercase));
+}
+
 .hidden-toolbar {
     transform: translateY(-100%);
     transition: transform 0.3s ease-in-out;
