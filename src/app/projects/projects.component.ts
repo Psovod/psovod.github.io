@@ -10,6 +10,8 @@ export interface Project {
   technologies: Array<Technologies>;
   description: string;
   summary: string;
+  private: boolean;
+  github_url?: string;
   _i18n: string;
 }
 export interface Technologies {
@@ -60,6 +62,7 @@ export class ProjectsComponent {
         { name: 'Material', icon: 'material' },
         { name: 'CSS', icon: 'css' },
       ],
+      private: true,
       summary: 'Property management application.',
       description: `Birdrockres is a web-based application designed for property management, specifically tailored to streamline the management of rental properties. Built using the Angular framework, the application offers a comprehensive solution for property owners and tenants. It facilitates the upload and management of property-related documents, tracks inspections, and organizes photographic documentation with high resolution.
 
@@ -79,6 +82,7 @@ Key features include advanced functionality to categorize and label data for eas
         { name: 'Swift', icon: 'swift' },
         { name: 'Kotlin', icon: 'kotlin' },
       ],
+      private: true,
       summary: 'Mobile application for property management.',
       description: `The Birdrockres Mobile App is a progressive web application (PWA) designed to complement the Birdrockres web platform, offering a mobile-friendly solution for property management on the go. Developed using the Ionic framework, the app provides a seamless user experience across various devices, enabling property owners and tenants to access key features and functionalities from their smartphones or tablets.
       `,
@@ -86,6 +90,8 @@ Key features include advanced functionality to categorize and label data for eas
     {
       id: '3',
       name: 'NBazar',
+      private: false,
+      github_url: 'https://github.com/Psovod/NBazar',
       _i18n: 'app.nbazar',
       technologies: [
         { name: 'Angular 17', icon: 'angular_new' },
@@ -102,6 +108,7 @@ Key features include a responsive interface, advanced item categorization, seaml
     {
       id: '4',
       name: 'Bagrák',
+      private: true,
       _i18n: 'app.bagrak',
       technologies: [
         { name: 'Javascript', icon: 'javascript' },

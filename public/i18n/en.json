@@ -1,7 +1,7 @@
 {
-	"app.bagrak.description": "Zemní práce Bagrák is a website focused on showcasing earthwork services. It provides information about the machinery used, an interactive map of current and completed work areas, a photo gallery of finished projects as references, and a form for easily submitting requests or inquiries.",
-	"app.bagrak.summary": "Earthwork services showcase.",
-	"app.bagrak.title": "Earthwork Bagrák",
+	"app.bagrak.description": "Groundwork Bagrák is a website focused on showcasing earthwork services. It provides information about the machinery used, an interactive map of current and completed work areas, a photo gallery of finished projects as references, and a form for easily submitting requests or inquiries.",
+	"app.bagrak.summary": "Groundwork services showcase.",
+	"app.bagrak.title": "Groundwork Bagrák",
 	"app.birdrockres.description": "Birdrockres is a web-based application designed for property management, specifically tailored to streamline the management of rental properties. Built using the Angular framework, the application offers a comprehensive solution for property owners and tenants. It facilitates the upload and management of property-related documents, tracks inspections, and organizes photographic documentation with high resolution.\n\nKey features include advanced functionality to categorize and label data for easier navigation, a user-friendly interface, and seamless document sharing without requiring the recipient to install additional software—accessible directly through a web browser. Developed as part of a personal portfolio project, this application showcases expertise in Angular development, demonstrating the ability to build scalable, functional, and user-focused web applications.",
 	"app.birdrockres.summary": "Property management application.",
 	"app.birdrockres.title": "Birdrockres web app",

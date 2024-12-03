@@ -1,19 +1,18 @@
-<mat-toolbar class="sticky top-0" [class.hidden-toolbar]="!toolbarVisible()">
-  <span>Pavel Šindelář</span>
-  <span class="flex-grow flex-shrink"></span>
-  <button mat-button (click)="useLanguage()">{{ language() }}</button>
-  <a
-    [href]="LINKEDIN_URL"
-    target="_blank"
-    mat-icon-button
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon">
-    <mat-icon svgIcon="linkedin"></mat-icon>
-  </a>
-  <a [href]="GITHUB_URL" target="_blank" mat-icon-button aria-label="Example icon-button with share icon">
-    <mat-icon svgIcon="github"></mat-icon>
-  </a>
-</mat-toolbar>
-<div class="bg-slate-200 text-center p-5 h-lvh rounded">
+<nav class="sticky top-0 dark z-10" [class.hidden-toolbar]="!toolbarVisible()">
+  <mat-toolbar>
+    <a [href]="LINKEDIN_URL" target="_blank" mat-icon-button>
+      <mat-icon svgIcon="linkedin"></mat-icon>
+    </a>
+    <span class="flex-grow flex-shrink"></span>
+    <button mat-button (click)="useLanguage()">{{ language() }}</button>
+    <button mat-icon-button (click)="useMode()">
+      <mat-icon>{{ colorMode() }}</mat-icon>
+    </button>
+    <a [href]="GITHUB_URL" target="_blank" mat-icon-button>
+      <mat-icon svgIcon="github"></mat-icon>
+    </a>
+  </mat-toolbar>
+</nav>
+<div class="dynamic-bg text-center sm:p-5 p-0 h-lvh rounded">
   <router-outlet></router-outlet>
 </div>

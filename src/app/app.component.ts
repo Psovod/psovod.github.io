@@ -4,6 +4,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { PreferredThemeService } from './shared/services/preferred-theme.service';
 @Component({
   selector: 'app-root',
   imports: [MaterialModule, RouterModule],
@@ -12,47 +13,65 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   private translate: TranslateService = inject(TranslateService);
-  public name = 'Pavel';
+  private preferredTheme: PreferredThemeService = inject(PreferredThemeService);
+  private iconRegistry = inject(MatIconRegistry);
+  private sanitizer = inject(DomSanitizer);
   GITHUB_URL = 'https://github.com/Psovod';
   LINKEDIN_URL = 'https://www.linkedin.com/in/pavlikson';
   lastScrollTop = 0;
   toolbarVisible = signal(true);
+  colorMode: WritableSignal<'dark_mode' | 'light_mode' | null> = signal(null);
   language: WritableSignal<'en' | 'cz'> = signal('en');
   constructor() {
+    this.colorMode.set(this.preferredTheme.isDark() ? 'dark_mode' : 'light_mode');
     this.translate.addLangs(['cz', 'en']);
     this.translate.setDefaultLang('en');
     this.translate.use(this.translate.getBrowserLang() || 'en');
-    const iconRegistry = inject(MatIconRegistry);
-    const sanitizer = inject(DomSanitizer);
-    iconRegistry.addSvgIcon('github', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/github-mark.svg'));
-    iconRegistry.addSvgIcon('linkedin', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/linkedin.svg'));
-    iconRegistry.addSvgIcon('angular', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/angular.svg'));
-    iconRegistry.addSvgIcon('ionic', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/ionic.svg'));
-    iconRegistry.addSvgIcon('pwa', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/pwa.svg'));
-    iconRegistry.addSvgIcon('angular_new', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/angular_new.svg'));
-    iconRegistry.addSvgIcon('typescript', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/typescript.svg'));
-    iconRegistry.addSvgIcon('javascript', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/javascript.svg'));
-    iconRegistry.addSvgIcon('html', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/html.svg'));
-    iconRegistry.addSvgIcon('tailwind', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/tailwind.svg'));
-    iconRegistry.addSvgIcon('material', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/material.svg'));
-    iconRegistry.addSvgIcon('css', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/css.svg'));
-    iconRegistry.addSvgIcon('kotlin', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/kotlin.svg'));
-    iconRegistry.addSvgIcon('swift', sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/swift.svg'));
+    this.initIcons();
   }
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
     if (currentScroll > this.lastScrollTop) {
-      // Scrolling down
       this.toolbarVisible.set(false);
     } else {
-      // Scrolling up
       this.toolbarVisible.set(true);
     }
-    this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // For Mobile or negative scrolling
+    this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
   }
+
   useLanguage(): void {
     this.language.set(this.language() === 'en' ? 'cz' : 'en');
     this.translate.use(this.language());
+  }
+  useMode(): void {
+    this.colorMode.set(this.colorMode() === 'dark_mode' ? 'light_mode' : 'dark_mode');
+    this.updateTheme();
+  }
+  private updateTheme(): void {
+    const themeClass = this.colorMode() === 'dark_mode' ? 'dark' : 'light';
+    document.documentElement.className = themeClass;
+  }
+  private initIcons(): void {
+    const icons = [
+      'github',
+      'linkedin',
+      'angular',
+      'ionic',
+      'pwa',
+      'angular_new',
+      'typescript',
+      'javascript',
+      'html',
+      'tailwind',
+      'material',
+      'css',
+      'kotlin',
+      'swift',
+    ];
+
+    icons.forEach(icon => {
+      this.iconRegistry.addSvgIcon(icon, this.sanitizer.bypassSecurityTrustResourceUrl(`icons/${icon}.svg`));
+    });
   }
 }

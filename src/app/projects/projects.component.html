@@ -1,8 +1,8 @@
 <section class="app-showcase mb-10">
-  <div class="grid grid-cols-2 gap-4 p-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 items-start">
     @for (project of projects; track $index) {
 
-    <mat-card class="p-8 relative">
+    <mat-card class="sm:p-8 px-2 py-8 relative">
       <a [routerLink]="['/projects/' + project.id]" class="absolute right-4 top-4">
         <mat-icon>open_in_new</mat-icon>
       </a>
@@ -11,9 +11,9 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title [translate]="project._i18n + '.title'"></mat-panel-title>
-              <mat-panel-description [translate]="project._i18n + '.summary'"></mat-panel-description>
+              <mat-panel-description class="sm:!flex !hidden" [translate]="project._i18n + '.summary'"></mat-panel-description>
             </mat-expansion-panel-header>
-            <p class="text-sm text-justify" [translate]="project._i18n + '.description'"></p>
+            <p class="text-sm text-left" [translate]="project._i18n + '.description'"></p>
           </mat-expansion-panel>
         </mat-accordion>
         <mat-divider></mat-divider>
@@ -30,7 +30,9 @@
 
           <!-- GitHub Icon Section -->
           <div class="flex items-center self-end mt-2">
-            <mat-icon svgIcon="github" class="mr-1"></mat-icon>
+            <a [href]="project.github_url" [target]="'_blank'" mat-icon-button class="mr-1" [disabled]="project.private">
+              <mat-icon svgIcon="github"></mat-icon>
+            </a>
           </div>
         </div>
       </div>

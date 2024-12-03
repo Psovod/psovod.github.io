@@ -1,13 +1,30 @@
+@use '@angular/material' as mat;
+
+:root {
+    --light-bg: #d7e3ff;
+    --dark-bg: #000000;
+}
+
+html {
+    color-scheme: light dark;
+    @include mat.theme((color: mat.$azure-palette));
+}
+
+
+html.dark {
+    color-scheme: dark;
+    --bg-color: var(--dark-bg);
+}
+
+html.light {
+    color-scheme: light;
+    --bg-color: var(--light-bg);
+}
+
+.dynamic-bg {
+    background-color: var(--bg-color);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-html,
-body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-}
