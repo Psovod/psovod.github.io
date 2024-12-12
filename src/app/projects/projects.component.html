@@ -4,7 +4,7 @@
 
     <mat-card class="sm:p-8 px-2 py-8 relative">
       <a [routerLink]="['/projects/' + project.id]" class="absolute right-4 top-4">
-        <mat-icon>open_in_new</mat-icon>
+        <mat-icon matTooltip="View project">open_in_new</mat-icon>
       </a>
       <div class="flex flex-col gap-2">
         <mat-accordion class="my-4">
@@ -29,9 +29,9 @@
           </div>
 
           <!-- GitHub Icon Section -->
-          <div class="flex items-center self-end mt-2">
-            <a [href]="project.github_url" [target]="'_blank'" mat-icon-button class="mr-1" [disabled]="project.private">
-              <mat-icon svgIcon="github"></mat-icon>
+          <div class="flex items-center self-end mt-2 leading-7">
+            <a [href]="project.github_url" [target]="'_blank'" mat-icon-button [disabled]="project.private">
+              <mat-icon svgIcon="github" matTooltip="GitHub repository"></mat-icon>
             </a>
           </div>
         </div>

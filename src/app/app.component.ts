@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PreferredThemeService } from './shared/services/preferred-theme.service';
+import { HighlightLoader } from 'ngx-highlightjs';
 @Component({
   selector: 'app-root',
   imports: [MaterialModule, RouterModule],
@@ -16,6 +17,7 @@ export class AppComponent {
   private preferredTheme: PreferredThemeService = inject(PreferredThemeService);
   private iconRegistry = inject(MatIconRegistry);
   private sanitizer = inject(DomSanitizer);
+  private hljsLoader: HighlightLoader = inject(HighlightLoader);
   GITHUB_URL = 'https://github.com/Psovod';
   LINKEDIN_URL = 'https://www.linkedin.com/in/pavlikson';
   lastScrollTop = 0;
@@ -50,6 +52,7 @@ export class AppComponent {
   }
   private updateTheme(): void {
     const themeClass = this.colorMode() === 'dark_mode' ? 'dark' : 'light';
+    this.hljsLoader.setTheme(themeClass === 'dark' ? 'styles/solarized-dark.css' : 'styles/solarized-light.css');
     document.documentElement.className = themeClass;
   }
   private initIcons(): void {

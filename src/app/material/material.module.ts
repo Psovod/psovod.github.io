@@ -7,6 +7,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -19,6 +22,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDividerModule,
     MatChipsModule,
     MatExpansionModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatTabsModule,
   ],
   exports: [
     MatButtonModule,
@@ -29,6 +35,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDividerModule,
     MatChipsModule,
     MatExpansionModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatTabsModule,
   ],
   providers: [],
 })

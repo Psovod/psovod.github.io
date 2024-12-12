@@ -1,1 +1,20 @@
-<p>birdrockres works!</p>
+<div class="grid grid-cols-4 gap-4">
+  @for (item of components; track $index) {
+
+  <mat-card
+    (mouseenter)="video.play()"
+    (mouseleave)="video.pause(); video.currentTime = 0"
+    (click)="openComponent(item)"
+    class="relative group overflow-hidden">
+    <!-- Image -->
+    <video #video loop muted playsinline class="w-full h-full transition-all duration-500 blur-sm group-hover:blur-none">
+      <source [src]="item.path.desktop" type="video/webm" />
+    </video>
+    <!-- Text Overlay -->
+    <div
+      class="absolute inset-0 flex items-center justify-center text-black font-bold text-xl opacity-100 group-hover:opacity-0 transition-all duration-500 cursor-pointer">
+      {{ item.name }}
+    </div>
+  </mat-card>
+  }
+</div>
