@@ -1,6 +1,7 @@
 <nav class="sticky top-0 dark z-10 px-2" [class.hidden-toolbar]="!toolbarVisible()">
   <mat-toolbar>
     <span class="flex-grow flex-shrink"></span>
+    <a mat-button [routerLink]="['/projects']">Projects</a>
     <button mat-button matTooltip="Change language" (click)="useLanguage()">{{ language() }}</button>
     <button mat-icon-button (click)="useMode()">
       <mat-icon matTooltip="Change theme">{{ colorMode() }}</mat-icon>
