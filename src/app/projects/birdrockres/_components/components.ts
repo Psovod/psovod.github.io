@@ -1,8 +1,8 @@
 import { _Component } from '../../../shared/services/project.service';
-
 export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   {
     name: 'Property Feed',
+    _onlyView: 'both',
     summary: `
     <ul class="space-y-4">
       <li>
@@ -34,6 +34,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Property Dashboard',
+    _onlyView: 'both',
     summary: ` <ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Property Information:</strong>
@@ -79,6 +80,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Document Feed',
+    _onlyView: 'both',
     summary: ` <ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Document Feed:</strong>
@@ -117,6 +119,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Document View',
+    _onlyView: 'both',
     summary: `  <ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Room Overview:</strong>
@@ -165,6 +168,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Photo Feed',
+    _onlyView: 'both',
     summary: `<ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Photo Display:</strong>
@@ -203,6 +207,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Report Feed',
+    _onlyView: 'both',
     summary: ` <ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Report Feed:</strong>
@@ -234,6 +239,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Report View',
+    _onlyView: 'both',
     summary: `<ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">General Overview:</strong>
@@ -271,6 +277,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Report PDF ',
+    _onlyView: 'desktop',
     summary: `<ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Feature Overview:</strong>
@@ -303,11 +310,12 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
     </ul>`,
     path: {
       desktop: 'img/webm/07_report-pdf.webm',
-      mobile: 'img/webm/mobile/07_report-pdf-mobile.webm', //doesnt exists
+      mobile: null, //doesnt exists
     },
   },
   {
     name: 'Template Feed',
+    _onlyView: 'both',
     summary: `  <ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Template Management:</strong>
@@ -339,6 +347,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Template View',
+    _onlyView: 'both',
     summary: `<ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Room and Area Configuration:</strong>
@@ -377,6 +386,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'User Management',
+    _onlyView: 'both',
     summary: ` <ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">User Overview:</strong>
@@ -414,6 +424,7 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
   },
   {
     name: 'Photo Gallery',
+    _onlyView: 'both',
     summary: ` <ul class="space-y-4">
       <li>
         <strong class="text-xl text-gray-800">Photo Preview:</strong>
@@ -443,3 +454,89 @@ export const BIRDROCKRES_DESKTOP_COMPONENTS: Array<_Component> = [
     },
   },
 ];
+export const BIRDROCKRES_MOBILE_COMPONENTS: Array<_Component> = [
+  {
+    name: 'Shared Documents',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/00_shared-document-feed-ionic.webm',
+    },
+  },
+  {
+    name: 'Property Feed',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/01_property-feed-ionic.webm',
+    },
+  },
+  {
+    name: 'Document Feed',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/02_document-feed-ionic.webm',
+    },
+  },
+  {
+    name: 'Document View',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/03_document-view-ionic.webm',
+    },
+  },
+  {
+    name: 'Photo Feed',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/04_photo-feed-ionic.webm',
+    },
+  },
+  {
+    name: 'Report Feed',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/05_report-feed-ionic.webm',
+    },
+  },
+  {
+    name: 'Report View',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/06_report-view-ionic.webm',
+    },
+  },
+  {
+    name: 'Assigned Work',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/07_assigned-work-ionic.webm',
+    },
+  },
+  {
+    name: 'Photo Gallery',
+    _onlyView: 'mobile',
+    summary: ``,
+    path: {
+      desktop: null,
+      mobile: 'img/webm/ionic/08_photo-gallery-ionic.webm',
+    },
+  },
+];
+
+export const NBAZAR_COMPONENTS: Array<_Component> = [];
+export const BAGRAK_COMPONENTS: Array<_Component> = [];

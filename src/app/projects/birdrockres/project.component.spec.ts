@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BirdrockresComponent } from './birdrockres.component';
+import { ProjectComponent } from './project.component';
 
 describe('BirdrockresComponent', () => {
-  let component: BirdrockresComponent;
-  let fixture: ComponentFixture<BirdrockresComponent>;
+  let component: ProjectComponent;
+  let fixture: ComponentFixture<ProjectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BirdrockresComponent]
-    })
-    .compileComponents();
+      imports: [ProjectComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(BirdrockresComponent);
+    fixture = TestBed.createComponent(ProjectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -18,9 +18,11 @@
         <button (click)="toggleCode()" mat-icon-button>
           <mat-icon [matTooltip]="showCode ? 'Hide info' : 'Show info'">help_outline</mat-icon>
         </button>
+        @if (projectService.component._onlyView === 'both') {
         <button mat-icon-button (click)="changeView()">
           <mat-icon matTooltip="Responsive view">{{ currentViewMode() === "desktop" ? "smartphone" : "computer" }}</mat-icon>
         </button>
+        }
       </div>
     </div>
     <div class="flex justify-center">

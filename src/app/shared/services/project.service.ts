@@ -3,12 +3,14 @@ export interface _Component {
   name: string;
   summary: string;
   path: Thumbnail;
+  _onlyView: OnlyView;
   // code: Array<CodeSnippet>;
 }
 export interface Thumbnail {
-  desktop: string;
-  mobile: string;
+  desktop: string | null;
+  mobile: string | null;
 }
+export type OnlyView = 'desktop' | 'mobile' | 'both';
 // export interface CodeSnippet {
 //   title: string;
 //   text: string;

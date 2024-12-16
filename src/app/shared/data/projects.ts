@@ -15,7 +15,7 @@ export interface Technologies {
 
 export const projects: Array<Project> = [
   {
-    id: 'birdrockres',
+    id: 'birdrockres-desktop',
     name: 'Birdrockres',
     _i18n: 'app.birdrockres',
     technologies: [
@@ -33,7 +33,7 @@ export const projects: Array<Project> = [
 Key features include advanced functionality to categorize and label data for easier navigation, a user-friendly interface, and seamless document sharing without requiring the recipient to install additional software—accessible directly through a web browser. Developed as part of a personal portfolio project, this application showcases expertise in Angular development, demonstrating the ability to build scalable, functional, and user-focused web applications.`,
   },
   {
-    id: '2',
+    id: 'birdrockres-mobile',
     name: 'Birdrockres Mobile App',
     _i18n: 'app.birdrockres_mobile',
     technologies: [
@@ -52,7 +52,7 @@ Key features include advanced functionality to categorize and label data for eas
       `,
   },
   {
-    id: '3',
+    id: 'nbazar',
     name: 'NBazar',
     private: false,
     github_url: 'https://github.com/Psovod/NBazar',
@@ -70,7 +70,7 @@ Key features include advanced functionality to categorize and label data for eas
 Key features include a responsive interface, advanced item categorization, seamless image uploads, and search capabilities. The application emphasizes simplicity and accessibility, ensuring a smooth user experience. Developed as part of a personal portfolio project, NBazar highlights expertise in Angular development, demonstrating proficiency in creating scalable and user-focused web solutions.`,
   },
   {
-    id: '4',
+    id: 'bagrak',
     name: 'Bagrák',
     private: true,
     _i18n: 'app.bagrak',
