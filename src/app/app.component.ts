@@ -3,12 +3,12 @@ import { MaterialModule } from './material/material.module';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PreferredThemeService } from './shared/services/preferred-theme.service';
 import { HighlightLoader } from 'ngx-highlightjs';
 @Component({
   selector: 'app-root',
-  imports: [MaterialModule, RouterModule],
+  imports: [MaterialModule, RouterModule, TranslateDirective, TranslatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

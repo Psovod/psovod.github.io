@@ -3,9 +3,12 @@
     @for (project of projects; track $index) {
 
     <mat-card class="sm:p-8 px-2 py-8 relative">
+      @if (!project._noComponent) {
+
       <a [routerLink]="['/projects/' + project.id]" class="absolute right-4 top-4">
-        <mat-icon matTooltip="View project">open_in_new</mat-icon>
+        <mat-icon [matTooltip]="'app.projects.icon.view' | translate">open_in_new</mat-icon>
       </a>
+      }
       <div class="flex flex-col gap-2">
         <mat-accordion class="my-4">
           <mat-expansion-panel>
@@ -28,11 +31,18 @@
             }
           </div>
 
-          <!-- GitHub Icon Section -->
+          <!-- Icon Section -->
           <div class="flex items-center self-end mt-2 leading-7">
-            <a [href]="project.github_url" [target]="'_blank'" mat-icon-button [disabled]="project.private">
-              <mat-icon svgIcon="github" matTooltip="GitHub repository"></mat-icon>
+            @if (project.github_url) {
+
+            <a [href]="project.github_url" [target]="'_blank'" mat-icon-button>
+              <mat-icon svgIcon="github" [matTooltip]="'app.projects.icon.github' | translate"></mat-icon>
             </a>
+            } @if (project.web_url) {
+            <a [href]="project.web_url" [target]="'_blank'" mat-icon-button>
+              <mat-icon [matTooltip]="'app.projects.icon.web' | translate">public</mat-icon>
+            </a>
+            }
           </div>
         </div>
       </div>

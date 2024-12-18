@@ -3,12 +3,12 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { CommonModule } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { TranslateDirective } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { Project, projects } from '../shared/data/projects';
 
 @Component({
   selector: 'app-projects',
-  imports: [MaterialModule, RouterModule, CommonModule, TranslateDirective],
+  imports: [MaterialModule, RouterModule, CommonModule, TranslateDirective, TranslatePipe],
   templateUrl: './projects.component.html',
   animations: [
     trigger('textRollout', [

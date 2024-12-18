@@ -4,8 +4,9 @@ export interface Project {
   technologies: Array<Technologies>;
   description: string;
   summary: string;
-  private: boolean;
   github_url?: string;
+  web_url?: string;
+  _noComponent?: boolean;
   _i18n: string;
 }
 export interface Technologies {
@@ -17,6 +18,7 @@ export const projects: Array<Project> = [
   {
     id: 'birdrockres-desktop',
     name: 'Birdrockres',
+    _noComponent: false,
     _i18n: 'app.birdrockres',
     technologies: [
       { name: 'Angular 14', icon: 'angular' },
@@ -26,7 +28,6 @@ export const projects: Array<Project> = [
       { name: 'Material', icon: 'material' },
       { name: 'CSS', icon: 'css' },
     ],
-    private: true,
     summary: 'Property management application.',
     description: `Birdrockres is a web-based application designed for property management, specifically tailored to streamline the management of rental properties. Built using the Angular framework, the application offers a comprehensive solution for property owners and tenants. It facilitates the upload and management of property-related documents, tracks inspections, and organizes photographic documentation with high resolution.
 
@@ -35,6 +36,7 @@ Key features include advanced functionality to categorize and label data for eas
   {
     id: 'birdrockres-mobile',
     name: 'Birdrockres Mobile App',
+    _noComponent: false,
     _i18n: 'app.birdrockres_mobile',
     technologies: [
       { name: 'Ionic', icon: 'ionic' },
@@ -46,7 +48,6 @@ Key features include advanced functionality to categorize and label data for eas
       { name: 'Swift', icon: 'swift' },
       { name: 'Kotlin', icon: 'kotlin' },
     ],
-    private: true,
     summary: 'Mobile application for property management.',
     description: `The Birdrockres Mobile App is a progressive web application (PWA) designed to complement the Birdrockres web platform, offering a mobile-friendly solution for property management on the go. Developed using the Ionic framework, the app provides a seamless user experience across various devices, enabling property owners and tenants to access key features and functionalities from their smartphones or tablets.
       `,
@@ -54,9 +55,9 @@ Key features include advanced functionality to categorize and label data for eas
   {
     id: 'nbazar',
     name: 'NBazar',
-    private: false,
     github_url: 'https://github.com/Psovod/NBazar',
     _i18n: 'app.nbazar',
+    _noComponent: true,
     technologies: [
       { name: 'Angular 17', icon: 'angular_new' },
       { name: 'Typescript', icon: 'typescript' },
@@ -72,7 +73,8 @@ Key features include a responsive interface, advanced item categorization, seaml
   {
     id: 'bagrak',
     name: 'Bagrák',
-    private: true,
+    web_url: 'https://zemniprace-bagrak.cz',
+    _noComponent: true,
     _i18n: 'app.bagrak',
     technologies: [
       { name: 'Javascript', icon: 'javascript' },
