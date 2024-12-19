@@ -17,5 +17,61 @@
   "app.nav.changeLang": "Change language",
   "app.projects.icon.view": "View project",
   "app.projects.icon.github": "GitHub repository",
-  "app.projects.icon.web": "Website link"
+  "app.projects.icon.web": "Website link",
+  "app.about.projects.button": "View my projects",
+  "app.about.list.education": "Education",
+  "app.about.list.jobs": "Work Experience",
+  "about": {
+    "title": "About me",
+    "description": "I am a web developer with over two years of experience in Angular development. I focus on creating modern and user-friendly single-page applications (SPA) that deliver a smooth and efficient user experience. I enjoy learning new technologies, taking on challenges, and continuously improving my skills. In my free time, I enjoy playing video games and developing innovative solutions."
+  },
+  "education": [
+    {
+      "title": "Bachelor Degree",
+      "school": {
+        "name": "Vysoká škola finanční a správní, a.s.",
+        "specialization": "Applied Informatics"
+      },
+      "date": "2020 - 2024",
+      "icon": "school"
+    },
+    {
+      "title": "High School Diploma",
+      "school": {
+        "name": "Soukromá střední škola a základní škola (1. KŠPA), Praha s.r.o.",
+        "specialization": "18-20-M/01 Informatics"
+      },
+      "date": "2016 - 2020",
+      "icon": "code"
+    },
+    {
+      "title": "Apprenticeship Certificate",
+      "school": {
+        "name": "Střední odborná škola stravování Říčany s.r.o.",
+        "specialization": "65-51-H/01 Cook - Waiter"
+      },
+      "date": "2013 - 2016",
+      "icon": "restaurant"
+    }
+  ],
+  "jobs": [
+    {
+      "title": "Freelance Software Developer",
+      "description": "Angular Developer",
+      "company": "Birdrock REI Inc, USA",
+      "date": "December 2020 - present"
+    },
+    {
+      "title": "Four Seasons Hotels Limited",
+      "description": "IT Support Specialist",
+      "date": "July 2019 - December 2019",
+      "company": "Four Seasons Hotels Limited, Prague"
+    },
+    {
+      "title": "ZOOT a.s.",
+      "description": "IT Support Specialist",
+      "date": "May 2018 - November 2020",
+      "company": "ZOOT a.s. (Digital people, a.s.), Říčany"
+    }
+  ]
 }

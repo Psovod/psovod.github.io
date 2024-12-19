@@ -10,6 +10,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [],
@@ -25,6 +26,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTooltipModule,
     MatDialogModule,
     MatTabsModule,
+    MatListModule,
   ],
   exports: [
     MatButtonModule,
@@ -38,6 +40,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTooltipModule,
     MatDialogModule,
     MatTabsModule,
+    MatListModule,
   ],
   providers: [],
 })

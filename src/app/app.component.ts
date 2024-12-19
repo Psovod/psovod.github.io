@@ -27,8 +27,7 @@ export class AppComponent {
   constructor() {
     this.colorMode.set(this.preferredTheme.isDark() ? 'dark_mode' : 'light_mode');
     this.translate.addLangs(['cz', 'en']);
-    this.translate.setDefaultLang('en');
-    this.translate.use(this.translate.getBrowserLang() || 'en');
+    this.translate.setDefaultLang(this.translate.getBrowserLang() || 'en');
     this.initIcons();
   }
   @HostListener('window:scroll', [])
@@ -71,6 +70,8 @@ export class AppComponent {
       'css',
       'kotlin',
       'swift',
+      'docker',
+      'vsfs',
     ];
 
     icons.forEach(icon => {

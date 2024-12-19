@@ -17,5 +17,61 @@
   "app.nav.changeLang": "Změnit jazyk",
   "app.projects.icon.view": "Zobrazit projekt",
   "app.projects.icon.github": "GitHub repozitář",
-  "app.projects.icon.web": "Odkaz na webovou stránku"
+  "app.projects.icon.web": "Odkaz na webovou stránku",
+  "app.about.projects.button": "Zobrazit moje projekty",
+  "app.about.list.education": "Vzdělání",
+  "app.about.list.jobs": "Pracovní zkušenosti",
+  "about": {
+    "title": "O mně",
+    "description": "Jsem webový vývojář s více než dvěma lety zkušeností s vývojem v Angularu. Zaměřuji se na vytváření moderních a uživatelsky přívětivých single-page aplikací (SPA), které poskytují plynulý a efektivní uživatelský zážitek. Rád se učím nové technologie, přijímám výzvy a neustále zdokonaluji své schopnosti. Ve volném čase mě baví hraní videoher a vývoj inovativních řešení."
+  },
+  "education": [
+    {
+      "title": "Bakalářský titul",
+      "school": {
+        "name": "Vysoká škola finanční a správní, a.s.",
+        "specialization": "Aplikovaná informatika"
+      },
+      "date": "2020 - 2024",
+      "icon": "school"
+    },
+    {
+      "title": "Státní maturitní zkouška",
+      "school": {
+        "name": "Soukromá střední škola a základní škola (1. KŠPA), Praha s.r.o.",
+        "specialization": "18-20-M/01 Informatika"
+      },
+      "date": "2016 - 2020",
+      "icon": "code"
+    },
+    {
+      "title": "Výuční list - Kuchař - Číšník",
+      "school": {
+        "name": "Střední odborná škola stravování Říčany s.r.o.",
+        "specialization": "65-51-H/01 Kuchař - číšník"
+      },
+      "date": "2013 - 2016",
+      "icon": "restaurant"
+    }
+  ],
+  "jobs": [
+    {
+      "title": "Nezávislý vývojář softwaru",
+      "description": "Vývojář Angular",
+      "company": "Birdrock REI Inc, USA",
+      "date": "Prosinec 2020 - současnost"
+    },
+    {
+      "title": "Four Seasons Hotels Limited",
+      "description": "Specialista IT podpory",
+      "date": "Červenec 2019 - Prosinec 2019",
+      "company": "Four Seasons Hotels Limited, Praha"
+    },
+    {
+      "title": "ZOOT a.s.",
+      "description": "Specialista IT podpory",
+      "date": "Květen 2018 - Listopad 2020",
+      "company": "ZOOT a.s. (Digital people, a.s.), Říčany"
+    }
+  ]
 }
