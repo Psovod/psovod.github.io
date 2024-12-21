@@ -42,7 +42,7 @@
 
     <!-- Tabs Section -->
     <mat-card-content [class.!hidden]="!showCode" [class.opacity-0]="!showCode" animationDuration="0ms">
-      <span class="text-lg text-justify" [innerHTML]="component.summary | sanitizeHTML"></span>
+      <span class="text-lg text-justify" [innerHTML]="component.name + '.' + component._i18n | translate | sanitizeHTML"></span>
     </mat-card-content>
   </mat-card>
 </div>

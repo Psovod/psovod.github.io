@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { _Component, ProjectService } from '../../shared/services/project.service';
 import { BIRDROCKRES_DESKTOP_COMPONENTS, BIRDROCKRES_MOBILE_COMPONENTS } from './_components/components';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-project',
-  imports: [MaterialModule, CommonModule, RouterModule],
+  imports: [MaterialModule, CommonModule, RouterModule, TranslatePipe],
   templateUrl: './project.component.html',
   styleUrl: './project.component.scss',
 })

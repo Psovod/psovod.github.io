@@ -1,9 +1,9 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 export interface _Component {
   name: string;
-  summary: string;
   path: Thumbnail;
   _onlyView: OnlyView;
+  _i18n: string;
   // code: Array<CodeSnippet>;
 }
 export interface Thumbnail {

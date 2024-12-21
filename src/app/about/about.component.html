@@ -6,6 +6,9 @@
       <div class="flex space-x-2"></div>
 
       <div class="flex space-x-2">
+        <button mat-icon-button (click)="openPdf()">
+          <mat-icon matTooltip="Curriculum vitae">description</mat-icon>
+        </button>
         <a [href]="'tel:' + aboutMe.email" target="_blank" mat-icon-button>
           <mat-icon matTooltip="E-mail">email</mat-icon>
         </a>

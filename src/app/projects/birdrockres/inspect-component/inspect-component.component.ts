@@ -4,9 +4,10 @@ import { OnlyView, ProjectService } from '../../../shared/services/project.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NamePipe } from './pipes/sanitize-html.pipe';
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-inspect-component',
-  imports: [MaterialModule, CommonModule, NamePipe],
+  imports: [MaterialModule, CommonModule, NamePipe, TranslatePipe],
   templateUrl: './inspect-component.component.html',
   styleUrl: './inspect-component.component.scss',
 })

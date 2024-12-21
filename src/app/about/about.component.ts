@@ -54,7 +54,9 @@ export class AboutComponent {
       this.aboutMe.jobs = res;
     });
   }
-  ngOnInit(): void {}
+  public openPdf(): void {
+    window.open('pdf/cv.pdf', '_blank');
+  }
   public technologies: Array<Technologies> = [
     { name: 'Angular', icon: 'angular_new' },
     { name: 'Ionic', icon: 'ionic' },

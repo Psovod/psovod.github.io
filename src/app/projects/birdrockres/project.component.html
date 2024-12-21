@@ -15,7 +15,7 @@
     <!-- Text Overlay -->
     <div
       class="absolute inset-0 flex items-center justify-center text-black font-bold text-xl opacity-100 group-hover:opacity-0 transition-all duration-500 cursor-pointer">
-      {{ item.name }}
+      {{ item.name + ".name." + item._i18n | translate }}
     </div>
   </mat-card>
   }
