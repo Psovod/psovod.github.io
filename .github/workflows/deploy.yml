@@ -31,7 +31,7 @@ jobs:
 
       # Step 5: Build the Angular project
       - name: Build Angular Project
-        run: ng build --configuration=production --base-href /portfolio/
+        run: ng build --configuration=production
 
       # Step 6: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
