@@ -4,8 +4,11 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { TranslateDirective, TranslatePipe, TranslateService } from '@ngx-translate/core';
+import defaultLanguage from '../../public/i18n/cs.json';
 import { PreferredThemeService } from './shared/services/preferred-theme.service';
 import { HighlightLoader } from 'ngx-highlightjs';
+type Language = 'en' | 'cs';
+type Theme = 'dark' | 'light';
 @Component({
   selector: 'app-root',
   imports: [MaterialModule, RouterModule, TranslateDirective, TranslatePipe],
@@ -22,12 +25,15 @@ export class AppComponent {
   LINKEDIN_URL = 'https://www.linkedin.com/in/pavlikson';
   lastScrollTop = 0;
   toolbarVisible = signal(true);
-  colorMode: WritableSignal<'dark_mode' | 'light_mode' | null> = signal(null);
-  language: WritableSignal<'en' | 'cz'> = signal('en');
+  colorMode: WritableSignal<Theme | null> = signal(null);
+  language: WritableSignal<Language> = signal('en');
   constructor() {
-    this.colorMode.set(this.preferredTheme.isDark() ? 'dark_mode' : 'light_mode');
-    this.translate.addLangs(['cz', 'en']);
-    this.translate.setDefaultLang(this.translate.getBrowserLang() || 'en');
+    const browserLang = this.translate.getBrowserLang();
+    this.colorMode.set(this.preferredTheme.isDark() ? 'dark' : 'light');
+    this.language.set(browserLang === 'cs' ? 'cs' : 'en');
+    this.translate.setTranslation('cs', defaultLanguage);
+    this.translate.addLangs(['cs', 'en']);
+    this.translate.setDefaultLang(browserLang === 'cs' ? 'cs' : 'en');
     this.initIcons();
   }
   @HostListener('window:scroll', [])
@@ -42,15 +48,15 @@ export class AppComponent {
   }
 
   useLanguage(): void {
-    this.language.set(this.language() === 'en' ? 'cz' : 'en');
+    this.language.set(this.language() === 'en' ? 'cs' : 'en');
     this.translate.use(this.language());
   }
   useMode(): void {
-    this.colorMode.set(this.colorMode() === 'dark_mode' ? 'light_mode' : 'dark_mode');
+    this.colorMode.set(this.colorMode() === 'dark' ? 'light' : 'dark');
     this.updateTheme();
   }
   private updateTheme(): void {
-    const themeClass = this.colorMode() === 'dark_mode' ? 'dark' : 'light';
+    const themeClass = this.colorMode() === 'dark' ? 'dark' : 'light';
     this.hljsLoader.setTheme(themeClass === 'dark' ? 'styles/solarized-dark.css' : 'styles/solarized-light.css');
     document.documentElement.className = themeClass;
   }

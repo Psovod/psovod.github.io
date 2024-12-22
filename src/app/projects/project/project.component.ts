@@ -35,7 +35,11 @@ export class ProjectComponent {
       default:
         this.components = [];
     }
+    this.components.forEach(component => {
+      component._isVideoLoading = true;
+    });
   }
+
   openComponent(component: _Component) {
     this.projectService.component = component;
     this.router.navigate([`/projects/${this.route.snapshot.paramMap.get('project')}/component`]);

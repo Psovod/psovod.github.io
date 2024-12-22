@@ -3,9 +3,11 @@
     <span class="flex-grow flex-shrink"></span>
     <a mat-button [routerLink]="['/projects']"><span [translate]="'app.nav.projects'"></span></a>
     <a mat-button [routerLink]="['/about']"><span [translate]="'app.nav.about'"></span></a>
-    <button mat-button [matTooltip]="'app.nav.changeLang' | translate" (click)="useLanguage()">{{ language() }}</button>
+    <button mat-button [matTooltip]="'app.nav.changeLang' | translate" (click)="useLanguage()">
+      {{ language() === "en" ? "EN" : "CZ" }}
+    </button>
     <button mat-icon-button (click)="useMode()">
-      <mat-icon [matTooltip]="'app.nav.changeTheme' | translate">{{ colorMode() }}</mat-icon>
+      <mat-icon [matTooltip]="'app.nav.changeTheme' | translate">{{ colorMode() === "dark" ? "dark_mode" : "light_mode" }}</mat-icon>
     </button>
     <a [href]="LINKEDIN_URL" target="_blank" mat-icon-button>
       <mat-icon svgIcon="linkedin" matTooltip="LinkedIn"></mat-icon>

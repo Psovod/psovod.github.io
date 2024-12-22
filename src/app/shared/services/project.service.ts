@@ -4,6 +4,7 @@ export interface _Component {
   path: Thumbnail;
   _onlyView: OnlyView;
   _i18n: string;
+  _isVideoLoading?: boolean | undefined;
   // code: Array<CodeSnippet>;
 }
 export interface Thumbnail {

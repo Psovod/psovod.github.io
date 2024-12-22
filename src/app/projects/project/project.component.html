@@ -1,5 +1,6 @@
 <div class="grid sm:grid-cols-2 md:grid-cols-4 p-4 gap-4">
   @for (item of components; track $index) {
+
   <mat-card
     (mouseenter)="video.play()"
     (mouseleave)="video.pause(); video.currentTime = 0"
@@ -8,15 +9,25 @@
     <!-- Full width, fixed height -->
 
     <!-- Video -->
-    <video #video loop muted playsinline class="w-full h-full object-cover transition-all duration-500 blur-sm group-hover:blur-none">
+    <video
+      #video
+      loop
+      muted
+      playsinline
+      (loadeddata)="item._isVideoLoading = false"
+      class="w-full h-full object-cover transition-all duration-500 blur-sm group-hover:blur-none">
       <source [src]="item.path.desktop === null ? item.path.mobile : item.path.desktop" type="video/webm" />
     </video>
-
+    @if (item._isVideoLoading) {
+    <div class="absolute inset-0 flex items-center justify-center text-black font-bold text-xl animate-pulse">Loading...</div>
+    }
     <!-- Text Overlay -->
+    @if (!item._isVideoLoading) {
     <div
       class="absolute inset-0 flex items-center justify-center text-black font-bold text-xl opacity-100 group-hover:opacity-0 transition-all duration-500 cursor-pointer">
       {{ item.name + ".name." + item._i18n | translate }}
     </div>
+    }
   </mat-card>
   }
 </div>
