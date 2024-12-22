@@ -1,14 +1,8 @@
 <section class="app-showcase mb-10">
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 items-start">
+  <div class="grid grid-cols-1 xl:lg:grid-cols-2 gap-4 p-4 items-start">
     @for (project of projects; track $index) {
 
     <mat-card class="sm:p-8 px-2 py-8 relative">
-      @if (!project._noComponent) {
-
-      <a [routerLink]="['/projects/' + project.id]" class="absolute right-4 top-4">
-        <mat-icon [matTooltip]="'app.projects.icon.view' | translate">open_in_new</mat-icon>
-      </a>
-      }
       <div class="flex flex-col gap-2">
         <mat-accordion class="my-4">
           <mat-expansion-panel>
@@ -22,7 +16,7 @@
         <mat-divider></mat-divider>
         <div class="flex flex-col h-full">
           <!-- Project Content Section -->
-          <div class="flex flex-wrap gap-1 flex-grow">
+          <div class="flex xl:lg:md:sm:flex-wrap gap-2 overflow-x-auto whitespace-nowrap px-2 w-full xl:lg:md:sm:w-auto">
             @for (technology of project.technologies; track $index) {
             <mat-chip>
               <mat-icon matChipAvatar [svgIcon]="technology.icon"></mat-icon>
@@ -34,13 +28,16 @@
           <!-- Icon Section -->
           <div class="flex items-center self-end mt-2 leading-7">
             @if (project.github_url) {
-
             <a [href]="project.github_url" [target]="'_blank'" mat-icon-button>
               <mat-icon svgIcon="github" [matTooltip]="'app.projects.icon.github' | translate"></mat-icon>
             </a>
             } @if (project.web_url) {
             <a [href]="project.web_url" [target]="'_blank'" mat-icon-button>
-              <mat-icon [matTooltip]="'app.projects.icon.web' | translate">public</mat-icon>
+              <mat-icon [matTooltip]="'app.projects.icon.web' | translate">open_in_new</mat-icon>
+            </a>
+            } @if(!project._noComponent) {
+            <a [routerLink]="['/projects/' + project.id]" mat-icon-button>
+              <mat-icon [matTooltip]="'app.projects.icon.view' | translate">open_in_new</mat-icon>
             </a>
             }
           </div>
