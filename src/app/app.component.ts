@@ -7,7 +7,7 @@ import { TranslateDirective, TranslatePipe, TranslateService } from '@ngx-transl
 import defaultLanguage from '../../public/i18n/cs.json';
 import { PreferredThemeService } from './shared/services/preferred-theme.service';
 import { HighlightLoader } from 'ngx-highlightjs';
-type Language = 'en' | 'cs';
+export type Language = 'en' | 'cs';
 type Theme = 'dark' | 'light';
 @Component({
   selector: 'app-root',

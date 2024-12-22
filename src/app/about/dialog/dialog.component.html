@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{ dialogLanguage.title | translate }}</h2>
+<mat-dialog-content>
+  <p>{{ dialogLanguage.content | translate }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onSelectLanguage('cs')">{{ dialogLanguage.cs | translate }}</button>
+  <button mat-button (click)="onSelectLanguage('en')">{{ dialogLanguage.en | translate }}</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>{{ dialogLanguage.close | translate }}</button>
+</mat-dialog-actions>

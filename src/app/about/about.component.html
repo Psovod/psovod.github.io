@@ -1,5 +1,5 @@
 <div class="pb-4">
-  <mat-card class="p-4 leading-7 sm:max-w-[calc(100%-20rem)] mx-auto">
+  <mat-card class="p-4 leading-7 xl:lg:md:sm:max-w-[calc(100%-20rem)] mx-auto">
     <!-- Header Section -->
     <div class="flex justify-between items-center px-4 py-2">
       <h3 class="text-lg font-semibold">{{ aboutMe.info.title }}</h3>
@@ -33,7 +33,7 @@
         <h2 class="text-2xl font-bold mb-2">{{ aboutMe.name }}</h2>
 
         <!-- Technology Chips -->
-        <div class="flex gap-2 overflow-x-auto whitespace-nowrap px-2 w-full sm:w-auto">
+        <div class="flex gap-2 overflow-x-auto whitespace-nowrap px-2 w-full xl:lg:md:sm:w-auto justify-center">
           @for (technology of technologies; track $index) {
           <mat-chip class="inline-block">
             <mat-icon matChipAvatar [svgIcon]="technology.icon"></mat-icon>
@@ -48,8 +48,8 @@
         </div>
       </div>
 
-      <div class="flex flex-col-reverse sm:flex-row justify-center gap-4">
-        <div class="flex flex-col sm:flex-row justify-center p-4">
+      <div class="flex flex-col-reverse xl:lg:md:sm:flex-row justify-center gap-4">
+        <div class="flex flex-col xl:lg:md:sm:flex-row justify-center p-4">
           <mat-list>
             <div mat-subheader [translate]="'app.about.list.education'"></div>
             @for (education of aboutMe.education; track $index) {

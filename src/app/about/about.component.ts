@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { MaterialModule } from '../material/material.module';
-import { TranslateDirective, TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { DatePipe } from '@angular/common';
+import { TranslateDirective, TranslateService } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { Technologies } from '../shared/data/projects';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from './dialog/dialog.component';
+import { Language } from '../app.component';
 
 interface AboutMe {
   name: string;
@@ -42,6 +44,7 @@ interface Info {
   styleUrl: './about.component.scss',
 })
 export class AboutComponent {
+  private dialog = inject(MatDialog);
   constructor() {
     const translate: TranslateService = inject(TranslateService);
     translate.stream('education').subscribe((res: Array<Education>) => {
@@ -55,7 +58,22 @@ export class AboutComponent {
     });
   }
   public openPdf(): void {
-    window.open('pdf/cv.pdf', '_blank');
+    this.dialog
+      .open(DialogComponent)
+      .afterClosed()
+      .subscribe((res: Language) => {
+        switch (res) {
+          case 'cs':
+            window.open('pdf/pavel_sindelar_cz.pdf', '_blank');
+            break;
+          case 'en':
+            console.log('en');
+            window.open('pdf/pavel_sindelar_en.pdf', '_blank');
+            break;
+          default:
+            break;
+        }
+      });
   }
   public technologies: Array<Technologies> = [
     { name: 'Angular', icon: 'angular_new' },
