@@ -21,6 +21,11 @@
   "app.about.projects.button": "Zobrazit moje projekty",
   "app.about.list.education": "Vzdělání",
   "app.about.list.jobs": "Pracovní zkušenosti",
+  "app.about.dialog.title": "Stáhnout životopis",
+  "app.about.dialog.content": "V jakém jazyku byste chtěli stáhnout můj životopis?",
+  "app.about.dialog.en": "Angličtina",
+  "app.about.dialog.cs": "Čeština",
+  "app.about.dialog.close": "Zavřít",
   "about": {
     "title": "O mně",
     "description": "Jsem webový vývojář s více než dvěma lety zkušeností s vývojem v Angularu. Zaměřuji se na vytváření moderních a uživatelsky přívětivých single-page aplikací (SPA), které poskytují plynulý a efektivní uživatelský zážitek. Rád se učím nové technologie, přijímám výzvy a neustále zdokonaluji své schopnosti. Ve volném čase mě baví hraní videoher a vývoj inovativních řešení."

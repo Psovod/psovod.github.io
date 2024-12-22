@@ -21,6 +21,11 @@
   "app.about.projects.button": "View my projects",
   "app.about.list.education": "Education",
   "app.about.list.jobs": "Work Experience",
+  "app.about.dialog.title": "Download CV",
+  "app.about.dialog.content": "In which language would you prefer to download my CV?",
+  "app.about.dialog.cs": "Czech",
+  "app.about.dialog.en": "English",
+  "app.about.dialog.close": "Close",
   "about": {
     "title": "About me",
     "description": "I am a web developer with over two years of experience in Angular development. I focus on creating modern and user-friendly single-page applications (SPA) that deliver a smooth and efficient user experience. I enjoy learning new technologies, taking on challenges, and continuously improving my skills. In my free time, I enjoy playing video games and developing innovative solutions."
