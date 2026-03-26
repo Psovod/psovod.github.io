@@ -1,0 +1,263 @@
+.timeline-wrapper {
+  overflow-x: auto;
+  padding: 1rem 0;
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.timeline {
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  grid-auto-columns: 220px;
+  min-width: max-content;
+  padding: 0 2rem;
+}
+
+// Top card area (row 1)
+.tl-top-area {
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 0.25rem;
+
+  .timeline-card {
+    flex: 1;
+  }
+}
+
+// Dot area (row 2) — the horizontal line runs through here
+.tl-dot-area {
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+// Bottom card area (row 3)
+.tl-bottom-area {
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0.25rem;
+
+  .timeline-card {
+    flex: 1;
+  }
+}
+
+// Year label on the dot
+.timeline-year {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--mat-sys-primary);
+  text-align: center;
+  white-space: nowrap;
+  margin-bottom: 0.25rem;
+}
+
+// Dot on the line
+.timeline-dot {
+  position: relative;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--mat-sys-primary);
+  flex-shrink: 0;
+
+  // Horizontal line segments
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    background: var(--mat-sys-outline-variant);
+    transform: translateY(-50%);
+  }
+
+  &::before {
+    right: 100%;
+    width: calc((220px - 14px) / 2);
+  }
+
+  &::after {
+    left: 100%;
+    width: calc((220px - 14px) / 2);
+  }
+}
+
+// Hide line ends at first/last dots
+.tl-first .timeline-dot::before {
+  display: none;
+}
+
+.tl-last .timeline-dot::after {
+  display: none;
+}
+
+// Vertical connector between card and dot
+.timeline-connector {
+  width: 2px;
+  height: 1.25rem;
+  background: var(--mat-sys-outline-variant);
+  flex-shrink: 0;
+}
+
+// Card
+.timeline-card {
+  position: relative;
+  padding: 1rem;
+  padding-top: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container-low);
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.timeline-card-icon {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--mat-sys-primary);
+  opacity: 0.7;
+}
+
+.timeline-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  padding-right: 1.5rem;
+}
+
+.timeline-subtitle {
+  font-size: 0.78rem;
+  color: var(--mat-sys-on-surface-variant);
+  margin-bottom: 0.15rem;
+}
+
+.timeline-detail {
+  font-size: 0.72rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+// Date range inside card
+.timeline-date-range {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--mat-sys-primary);
+  margin-top: auto;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+
+  .date-full {
+    display: none;
+  }
+}
+
+// Mobile: vertical timeline
+@media (max-width: 768px) {
+  .timeline-wrapper {
+    overflow-x: visible;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    min-width: unset;
+    position: relative;
+
+    // Vertical line on the left
+    &::before {
+      content: '';
+      position: absolute;
+      left: calc(1rem + 6px);
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--mat-sys-outline-variant);
+    }
+  }
+
+  .tl-top-area,
+  .tl-bottom-area {
+    display: contents;
+  }
+
+  // Hide desktop dot area
+  .tl-dot-area {
+    display: none;
+  }
+
+  // Hide desktop connector
+  .timeline-connector {
+    display: none;
+  }
+
+  // Show full date instead of duration on mobile
+  .timeline-date-range {
+    .date-short {
+      display: none;
+    }
+    .date-full {
+      display: inline;
+    }
+  }
+
+  .timeline-card {
+    width: calc(100% - 2.5rem);
+    margin-left: 2.5rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    flex: unset !important;
+
+    // Dot on the vertical line
+    &::before {
+      content: '';
+      position: absolute;
+      left: calc(-2.5rem + 7px - 6px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--mat-sys-primary);
+      z-index: 1;
+    }
+
+    // Horizontal connector from dot to card
+    &::after {
+      content: '';
+      position: absolute;
+      left: calc(-2.5rem + 7px + 6px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: calc(2.5rem - 7px - 6px);
+      height: 2px;
+      background: var(--mat-sys-outline-variant);
+    }
+  }
+
+  // Show year label inside card on mobile
+  .timeline-year {
+    display: none;
+  }
+}

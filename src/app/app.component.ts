@@ -78,6 +78,7 @@ export class AppComponent {
       'swift',
       'docker',
       'vsfs',
+      'git',
     ];
 
     icons.forEach(icon => {

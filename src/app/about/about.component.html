@@ -9,9 +9,9 @@
         <button mat-icon-button (click)="openPdf()">
           <mat-icon matTooltip="Curriculum vitae">description</mat-icon>
         </button>
-        <a [href]="'tel:' + aboutMe.email" target="_blank" mat-icon-button>
+        <button mat-icon-button (click)="openEmailDialog()">
           <mat-icon matTooltip="E-mail">email</mat-icon>
-        </a>
+        </button>
 
         <a [href]="aboutMe.github" target="_blank" mat-icon-button>
           <mat-icon svgIcon="github" matTooltip="GitHub"></mat-icon>
@@ -21,9 +21,6 @@
         </a>
       </div>
     </div>
-    <!-- <mat-card-header>
-    <mat-card-title>{{ "app.about.me" | translate }}</mat-card-title>
-  </mat-card-header> -->
     <mat-card-content>
       <div class="flex flex-col items-center">
         <!-- Profile Picture -->
@@ -48,32 +45,48 @@
         </div>
       </div>
 
-      <div class="flex flex-col-reverse xl:lg:md:sm:flex-row justify-center gap-4">
-        <div class="flex flex-col xl:lg:md:sm:flex-row justify-center p-4">
-          <mat-list>
-            <div mat-subheader [translate]="'app.about.list.education'"></div>
-            @for (education of aboutMe.education; track $index) {
-            <mat-list-item class="my-2">
-              <mat-icon matListItemIcon>{{ education.icon }}</mat-icon>
-              <div matListItemTitle>{{ education.title }}</div>
-              <div matListItemLine>{{ education.school.name }}</div>
-              <div matListItemLine>{{ education.school.specialization }}</div>
-              <div matListItemLine>{{ education.date }}</div>
-            </mat-list-item>
-            }
-          </mat-list>
-          <mat-list>
-            <div mat-subheader [translate]="'app.about.list.jobs'"></div>
-            @for (job of aboutMe.jobs; track $index) {
-            <mat-list-item class="my-2">
-              <mat-icon matListItemIcon>work</mat-icon>
-              <div matListItemTitle>{{ job.title }}</div>
-              <div matListItemLine>{{ job.description }}</div>
-              <div matListItemLine>{{ job.company }}</div>
-              <div matListItemLine>{{ job.date }}</div>
-            </mat-list-item>
-            }
-          </mat-list>
+      <!-- Horizontal Alternating Timeline -->
+      <div class="timeline-wrapper">
+        <div class="timeline">
+          @for (item of timelineItems; track $index) {
+            <!-- Top card area -->
+            <div class="tl-top-area" [style.grid-column]="$index + 1">
+              @if ($index % 2 === 0) {
+                <div class="timeline-card">
+                  <mat-icon class="timeline-card-icon">{{ item.icon }}</mat-icon>
+                  <div class="timeline-title">{{ item.title }}</div>
+                  <div class="timeline-subtitle">{{ item.subtitle }}</div>
+                  <div class="timeline-detail">{{ item.detail }}</div>
+                  <div class="timeline-date-range" [matTooltip]="item.date">
+                    <span class="date-short">{{ item.dateShort }}</span>
+                    <span class="date-full">{{ item.date }}</span>
+                  </div>
+                </div>
+                <div class="timeline-connector"></div>
+              }
+            </div>
+            <!-- Dot on the line with year label -->
+            <div class="tl-dot-area" [class.tl-first]="$first" [class.tl-last]="$last" [style.grid-column]="$index + 1">
+              <div class="timeline-year">{{ item.yearLabel }}</div>
+              <div class="timeline-dot"></div>
+            </div>
+            <!-- Bottom card area -->
+            <div class="tl-bottom-area" [style.grid-column]="$index + 1">
+              @if ($index % 2 !== 0) {
+                <div class="timeline-connector"></div>
+                <div class="timeline-card">
+                  <mat-icon class="timeline-card-icon">{{ item.icon }}</mat-icon>
+                  <div class="timeline-title">{{ item.title }}</div>
+                  <div class="timeline-subtitle">{{ item.subtitle }}</div>
+                  <div class="timeline-detail">{{ item.detail }}</div>
+                  <div class="timeline-date-range" [matTooltip]="item.date">
+                    <span class="date-short">{{ item.dateShort }}</span>
+                    <span class="date-full">{{ item.date }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </div>
       </div>
       <mat-divider class="!my-8"></mat-divider>
