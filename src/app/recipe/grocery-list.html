@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Meal Prep — Shopping List</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #faf6f0; --warm-white: #fffdf9; --ink: #1e1a16; --ink-muted: #6b5f52; --ink-faint: #c4b9ac;
+    --terracotta: #c4512a; --sage: #4a6741; --mustard: #b8840a; --burgundy: #7a2040;
+    --slate: #2c5f6e; --plum: #8b4f9e; --border: #e8dfd4;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+
+  header { background: var(--ink); color: var(--cream); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,0.015) 20px,rgba(255,255,255,0.015) 40px); }
+  .header-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.75rem; position: relative; }
+  header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2rem,5vw,3.2rem); font-weight: 600; line-height: 1.1; position: relative; }
+  header h1 em { font-style: italic; color: var(--ink-faint); }
+  .header-sub { margin-top: 0.75rem; font-size: 13px; color: var(--ink-faint); position: relative; }
+
+  main { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; display: grid; gap: 2rem; }
+
+  /* ── SHOPPING LIST BUILDER ── */
+  .shopping-builder { background: var(--ink); border-radius: 12px; overflow: hidden; }
+  .builder-header { padding: 1.25rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .builder-header h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.2rem; font-weight: 600; color: var(--cream); margin-bottom: 3px; }
+  .builder-header p { font-size: 12px; color: var(--ink-faint); }
+  .recipe-toggles { padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; gap: 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .recipe-toggle-btn {
+    display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px;
+    border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
+    cursor: pointer; color: var(--ink-faint); font-family: 'DM Sans', sans-serif; font-size: 13px; transition: all 0.2s;
+  }
+  .recipe-toggle-btn .thumb { width: 28px; height: 28px; border-radius: 5px; opacity: 0.7; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; font-size: 15px; background: rgba(255,255,255,0.08); overflow: hidden; flex-shrink: 0; }
+  .recipe-toggle-btn .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .recipe-toggle-btn:hover { border-color: rgba(255,255,255,0.28); color: var(--cream); }
+  .recipe-toggle-btn:hover .thumb { opacity: 1; }
+  .recipe-toggle-btn.active { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); color: var(--cream); }
+  .recipe-toggle-btn.active .thumb { opacity: 1; }
+  .recipe-toggle-btn.active .dot-active { opacity: 1; }
+  .dot-active { width: 6px; height: 6px; border-radius: 50%; background: #7ecfa0; opacity: 0; transition: opacity 0.2s; flex-shrink: 0; }
+
+  .shopping-list-output { padding: 1.25rem 1.5rem 1.5rem; }
+  .empty-msg { font-size: 13px; color: var(--ink-faint); font-style: italic; text-align: center; padding: 0.5rem 0; }
+  .shop-section { margin-bottom: 1.25rem; }
+  .shop-section:last-child { margin-bottom: 0; }
+  .shop-section-label { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); padding-bottom: 0.4rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 0.25rem; }
+  .shop-item { display: flex; align-items: center; gap: 0.75rem; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; user-select: none; }
+  .shop-item:last-child { border-bottom: none; }
+  .shop-cb { appearance: none; -webkit-appearance: none; width: 17px; height: 17px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 4px; flex-shrink: 0; cursor: pointer; position: relative; transition: all 0.2s; background: transparent; }
+  .shop-cb:checked { background: #7ecfa0; border-color: #7ecfa0; }
+  .shop-cb:checked::after { content: ''; position: absolute; top: 2px; left: 4px; width: 5px; height: 8px; border: 2px solid #1e1a16; border-top: none; border-left: none; transform: rotate(40deg); }
+  .shop-item-name { font-size: 14px; color: var(--cream); flex: 1; transition: all 0.2s; }
+  .shop-item.checked .shop-item-name { text-decoration: line-through; color: rgba(255,255,255,0.25); }
+  .shop-item.checked .shop-item-amount { opacity: 0.3; }
+  .shop-item-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .shop-item-amount { font-size: 12px; color: rgba(255,255,255,0.35); transition: opacity 0.2s; }
+  .recipe-dots { display: flex; gap: 3px; align-items: center; }
+  .rdot { width: 7px; height: 7px; border-radius: 50%; }
+  .shop-list-actions { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+  .shop-list-count { font-size: 12px; color: rgba(255,255,255,0.3); }
+  .shop-clear-btn { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; background: none; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 3px 9px; cursor: pointer; color: rgba(255,255,255,0.3); transition: all 0.15s; }
+  .shop-clear-btn:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
+
+  /* ── RECIPE TILES ── */
+  .recipes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+  .recipe-tile { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .tile-thumb { width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--cream); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+  .tile-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tile-body { padding: 0.9rem 1rem 1rem; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .tile-name { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 600; line-height: 1.3; }
+  .tile-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; color: var(--ink-muted); text-decoration: none; border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; width: fit-content; transition: all 0.15s; margin-top: auto; }
+  .tile-link:hover { color: var(--ink); border-color: var(--ink-faint); background: var(--cream); }
+  .tile-link svg { width: 10px; height: 10px; }
+  .tile-no-link { font-size: 11px; color: var(--ink-faint); margin-top: auto; }
+
+  .tile-mustard .tile-name { color: var(--mustard); }
+  .tile-terracotta .tile-name { color: var(--terracotta); }
+  .tile-burgundy .tile-name { color: var(--burgundy); }
+  .tile-sage .tile-name { color: var(--sage); }
+  .tile-slate .tile-name { color: var(--slate); }
+  .tile-plum .tile-name { color: var(--plum); }
+
+  footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--ink-faint); border-top: 1px solid var(--border); max-width: 820px; margin: 0 auto; }
+  @media (max-width: 500px) { .recipes-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="header-eyebrow">Weekly Meal Prep</p>
+  <h1>Shopping <em>List</em></h1>
+  <p class="header-sub">6 recipes &nbsp;·&nbsp; select below to build your list</p>
+</header>
+
+<main>
+
+  <!-- SHOPPING LIST BUILDER -->
+  <div class="shopping-builder">
+    <div class="builder-header">
+      <h2>Shopping List Builder</h2>
+      <p>Toggle recipes to generate a combined ingredient list — shared items are grouped automatically</p>
+    </div>
+    <div class="recipe-toggles" id="recipe-toggles"></div>
+    <div class="shopping-list-output" id="shopping-output">
+      <p class="empty-msg">Select one or more recipes above to build your list.</p>
+    </div>
+  </div>
+
+  <!-- RECIPE TILES -->
+  <div class="recipes-grid">
+
+    <div class="recipe-tile tile-mustard">
+      <div class="tile-thumb">🥩</div>
+      <div class="tile-body">
+        <div class="tile-name">Steak Tartare</div>
+        <span class="tile-no-link">No link</span>
+      </div>
+    </div>
+
+    <div class="recipe-tile tile-terracotta">
+      <div class="tile-thumb"><img src="https://www.dontgobaconmyheart.co.uk/wp-content/uploads/2025/06/creamy-tuscan-chicken-pasta.jpg" referrerpolicy="no-referrer" alt=""></div>
+      <div class="tile-body">
+        <div class="tile-name">Creamy Sun-Dried Tomato Pasta</div>
+        <a class="tile-link" href="https://www.dontgobaconmyheart.co.uk/creamy-tuscan-chicken-pasta/#wprm-recipe-container-30122" target="_blank"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7"/><path d="M8 1h3m0 0v3m0-3L5.5 6.5"/></svg>View recipe</a>
+      </div>
+    </div>
+
+    <div class="recipe-tile tile-burgundy">
+      <div class="tile-thumb"><img src="https://www.dontgobaconmyheart.co.uk/wp-content/uploads/2024/05/creamy-chicken-and-chorizo-recipe.jpg" referrerpolicy="no-referrer" alt=""></div>
+      <div class="tile-body">
+        <div class="tile-name">Chicken Thighs & Chorizo Sauce</div>
+        <a class="tile-link" href="https://www.dontgobaconmyheart.co.uk/one-pan-creamy-chicken-chorizo/#wprm-recipe-container-25078" target="_blank"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7"/><path d="M8 1h3m0 0v3m0-3L5.5 6.5"/></svg>View recipe</a>
+      </div>
+    </div>
+
+    <div class="recipe-tile tile-sage">
+      <div class="tile-thumb"><img src="https://www.dontgobaconmyheart.co.uk/wp-content/uploads/2025/03/mini-garlic-butter-potatoes.jpg" referrerpolicy="no-referrer" alt=""></div>
+      <div class="tile-body">
+        <div class="tile-name">Garlic Butter Potatoes</div>
+        <a class="tile-link" href="https://www.dontgobaconmyheart.co.uk/garlic-butter-potatoes/#wprm-recipe-container-28377" target="_blank"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7"/><path d="M8 1h3m0 0v3m0-3L5.5 6.5"/></svg>View recipe</a>
+      </div>
+    </div>
+
+    <div class="recipe-tile tile-slate">
+      <div class="tile-thumb"><img src="https://www.dontgobaconmyheart.co.uk/wp-content/uploads/2017/12/date-night-baked-gnocchi-with-bacon-4-1200x1148.jpg" referrerpolicy="no-referrer" alt=""></div>
+      <div class="tile-body">
+        <div class="tile-name">Baked Gnocchi in Tomato Sauce</div>
+        <a class="tile-link" href="https://www.dontgobaconmyheart.co.uk/date-night-baked-gnocchi-with-bacon/#wprm-recipe-container-3990" target="_blank"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7"/><path d="M8 1h3m0 0v3m0-3L5.5 6.5"/></svg>View recipe</a>
+      </div>
+    </div>
+
+    <div class="recipe-tile tile-plum">
+      <div class="tile-thumb">🥟</div>
+      <div class="tile-body">
+        <div class="tile-name">Povidlové Taštičky</div>
+        <span class="tile-no-link">No link</span>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+<footer>Progress saves in your browser</footer>
+
+<script>
+const RECIPES = {
+  tartare: {
+    label: 'Steak Tartare', color: '#b8840a', thumb: null, emoji: '🥩',
+    sections: [{ id: null, items: [
+      { name: 'Beef (for tartare)', amount: 'to taste' },
+      { name: 'Egg yolks', amount: '× 2' },
+      { name: 'Dijon mustard', amount: 'to taste' },
+      { name: 'Worcestershire sauce', amount: 'to taste' },
+      { name: 'Onion', amount: '1 pc' },
+      { name: 'Garlic', amount: 'to taste' },
+      { name: 'Cornichons', amount: 'handful' },
+      { name: 'Fresh parsley', amount: 'small bunch' }
+    ]}]
+  },
+  pasta: {
+    label: 'Creamy Pasta', color: '#c4512a',
+    thumb: 'https://www.dontgobaconmyheart.co.uk/wp-content/uploads/2025/06/creamy-tuscan-chicken-pasta.jpg',
+    sections: [
+      { id: null, items: [
+        { name: 'Chicken breast', amount: '250 g' },
+        { name: 'Smoked paprika', amount: '½ tsp' },
+        { name: 'Dried oregano', amount: '½ tsp' },
+        { name: 'Onion powder', amount: '¼ tsp' },
+        { name: 'Sun-dried tomato oil', amount: '1 tbsp' }
+      ]},
+      { id: null, items: [
+        { name: 'Linguine', amount: '200 g' },
+        { name: 'Butter', amount: '15 g' },
+        { name: 'Garlic cloves', amount: '3 pcs' },
+        { name: 'Tomato purée', amount: '1 tbsp' },
+        { name: 'Chicken stock', amount: '~80 ml' },
+        { name: 'Double cream', amount: '~160 ml' },
+        { name: 'Sun-dried tomatoes', amount: '90 g' },
+        { name: 'Parmesan', amount: '30 g' },
+        { name: 'Fresh basil', amount: '½ bunch' },
+        { name: 'Baby spinach', amount: '60 g' }
+      ]}
+    ]
+  },
+  chorizo: {
+    label: 'Chicken & Chorizo', color: '#7a2040',
+    thumb: 'https://www.dontgobaconmyheart.co.uk/wp-content/uploads/2024/05/creamy-chicken-and-chorizo-recipe.jpg',
+    sections: [
+      { id: null, items: [
+        { name: 'Chicken thighs', amount: '600 g' },
+        { name: 'Smoked paprika', amount: '1½ tsp' },
+        { name: 'Dried oregano', amount: '1 tsp' },
+        { name: 'Garlic powder', amount: '½ tsp' },
+        { name: 'Onion powder', amount: '¼ tsp' },
+        { name: 'Cayenne pepper', amount: '¼ tsp' },
+        { name: 'Olive oil', amount: '1 tbsp' }
+      ]},
+      { id: null, items: [
+        { name: 'White onion', amount: '1 pc' },
+        { name: 'Spanish chorizo', amount: '100 g' },
+        { name: 'Garlic cloves', amount: '2 pcs' },
+        { name: 'Dry white wine', amount: '~60 ml' },
+        { name: 'Chicken stock', amount: '~180 ml' },
+        { name: 'Double cream', amount: '~180 ml' },
+        { name: 'Parmesan', amount: '20 g' },
+        { name: 'Fresh basil', amount: '15 g' },
+        { name: 'Baby plum tomatoes', amount: '175 g' }
+      ]}
+    ]
+  },
+  potatoes: {
+    label: 'Garlic Potatoes', color: '#4a6741',
+    thumb: 'https://www.dontgobaconmyheart.co.uk/wp-content/uploads/2025/03/mini-garlic-butter-potatoes.jpg',
+    sections: [{ id: null, items: [
+      { name: 'Garlic bulbs', amount: '× 2' },
+      { name: 'Small potatoes', amount: '1 000 g' },
+      { name: 'Olive oil', amount: '3 tbsp' },
+      { name: 'Salt', amount: '½ tsp' },
+      { name: 'Black pepper', amount: '¼ tsp' },
+      { name: 'Butter', amount: '90 g' },
+      { name: 'Fresh parsley', amount: '2 tbsp' }
+    ]}]
+  },
+  gnocchi: {
+    label: 'Baked Gnocchi', color: '#2c5f6e',
+    thumb: 'https://www.dontgobaconmyheart.co.uk/wp-content/uploads/2017/12/date-night-baked-gnocchi-with-bacon-4-1200x1148.jpg',
+    sections: [{ id: null, items: [
+      { name: 'Fresh gnocchi', amount: '500 g' },
+      { name: 'Tomato passata', amount: '500 ml' },
+      { name: 'Double cream', amount: '~60 ml' },
+      { name: 'Mozzarella', amount: '75 g' },
+      { name: 'Cheddar cheese', amount: '75 g' },
+      { name: 'Smoked streaky bacon', amount: '4–5 rashers' },
+      { name: 'White onion', amount: '1 pc' },
+      { name: 'Garlic cloves', amount: '2 pcs' },
+      { name: 'Fresh parsley', amount: '1 tbsp' },
+      { name: 'Fresh basil', amount: '1 tbsp' },
+      { name: 'Smoked paprika', amount: '½ tsp' },
+      { name: 'Sugar', amount: '½ tsp' },
+      { name: 'Salt & black pepper', amount: 'to taste' }
+    ]}]
+  },
+  tasticky: {
+    label: 'Povidlové Taštičky', color: '#8b4f9e', thumb: null, emoji: '🥟',
+    sections: [{ id: null, items: [
+      { name: 'Bramborové těsto v prášku', amount: '1 bal.' },
+      { name: 'Povidla', amount: 'podle chuti' },
+      { name: 'Šlehačka (musí se udělat)', amount: 'domácí' },
+      { name: 'Mák', amount: 'na posypání' },
+      { name: 'Moučkový cukr', amount: 'na posypání' }
+    ]}]
+  }
+};
+
+const activeRecipes = new Set();
+const shopChecked = new Set();
+
+function renderToggles() {
+  document.getElementById('recipe-toggles').innerHTML = Object.entries(RECIPES).map(([id, r]) => {
+    const thumb = r.thumb
+      ? `<span class="thumb"><img src="${r.thumb}" referrerpolicy="no-referrer" alt=""></span>`
+      : `<span class="thumb">${r.emoji}</span>`;
+    return `<button class="recipe-toggle-btn" data-id="${id}" onclick="toggleRecipe('${id}')">${thumb}<span>${r.label}</span><span class="dot-active"></span></button>`;
+  }).join('');
+}
+
+function toggleRecipe(id) {
+  activeRecipes.has(id) ? activeRecipes.delete(id) : activeRecipes.add(id);
+  document.querySelector(`.recipe-toggle-btn[data-id="${id}"]`).classList.toggle('active', activeRecipes.has(id));
+  renderShoppingList();
+  saveState();
+}
+
+function renderShoppingList() {
+  const output = document.getElementById('shopping-output');
+  if (!activeRecipes.size) {
+    output.innerHTML = '<p class="empty-msg">Select one or more recipes above to build your list.</p>';
+    return;
+  }
+  const merged = {};
+  activeRecipes.forEach(rid => {
+    RECIPES[rid].sections.forEach(s => {
+      s.items.forEach(item => {
+        const key = item.name.toLowerCase().replace(/\s+/g, ' ');
+        if (!merged[key]) merged[key] = { name: item.name, amounts: {}, recipes: [] };
+        merged[key].amounts[rid] = item.amount;
+        merged[key].recipes.push(rid);
+      });
+    });
+  });
+
+  const shared = Object.values(merged).filter(i => i.recipes.length > 1);
+  const byRecipe = {};
+  Object.values(merged).filter(i => i.recipes.length === 1).forEach(i => {
+    const rid = i.recipes[0];
+    if (!byRecipe[rid]) byRecipe[rid] = [];
+    byRecipe[rid].push(i);
+  });
+
+  let html = '<div class="shop-list-actions"><span class="shop-list-count" id="shop-count"></span><button class="shop-clear-btn" onclick="clearShopChecks()">Clear checked</button></div>';
+
+  if (shared.length) {
+    html += `<div class="shop-section"><div class="shop-section-label">Shared across recipes</div>`;
+    shared.forEach(item => { html += shopItemHTML(item); });
+    html += `</div>`;
+  }
+
+  activeRecipes.forEach(rid => {
+    if (!byRecipe[rid] || !byRecipe[rid].length) return;
+    html += `<div class="shop-section"><div class="shop-section-label" style="color:${RECIPES[rid].color}bb">${RECIPES[rid].label} only</div>`;
+    byRecipe[rid].forEach(item => { html += shopItemHTML(item); });
+    html += `</div>`;
+  });
+
+  output.innerHTML = html;
+  updateShopCount();
+}
+
+function shopItemHTML(item) {
+  const key = item.name.toLowerCase().replace(/\s+/g, '-');
+  const checked = shopChecked.has(key);
+  const dots = item.recipes.map(rid =>
+    `<span class="rdot" style="background:${RECIPES[rid].color}" title="${RECIPES[rid].label}"></span>`
+  ).join('');
+  const amounts = [...new Set(Object.values(item.amounts))].join(' / ');
+  return `<div class="shop-item${checked ? ' checked' : ''}" onclick="toggleShopItem(this,'${key}')">
+    <input class="shop-cb" type="checkbox"${checked ? ' checked' : ''}>
+    <span class="shop-item-name">${item.name}</span>
+    <span class="shop-item-right"><span class="shop-item-amount">${amounts}</span><span class="recipe-dots">${dots}</span></span>
+  </div>`;
+}
+
+function toggleShopItem(el, key) {
+  const cb = el.querySelector('.shop-cb');
+  cb.checked = !cb.checked;
+  el.classList.toggle('checked', cb.checked);
+  cb.checked ? shopChecked.add(key) : shopChecked.delete(key);
+  updateShopCount();
+  saveState();
+}
+
+function clearShopChecks() {
+  shopChecked.clear();
+  document.querySelectorAll('.shop-item.checked').forEach(el => {
+    el.classList.remove('checked');
+    el.querySelector('.shop-cb').checked = false;
+  });
+  updateShopCount();
+  saveState();
+}
+
+function updateShopCount() {
+  const el = document.getElementById('shop-count');
+  if (!el) return;
+  const total = document.querySelectorAll('.shop-item').length;
+  const done = document.querySelectorAll('.shop-item.checked').length;
+  el.textContent = total ? `${done} of ${total} picked up` : '';
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('glist-active', JSON.stringify([...activeRecipes]));
+    localStorage.setItem('glist-shop', JSON.stringify([...shopChecked]));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const a = localStorage.getItem('glist-active');
+    if (a) { JSON.parse(a).forEach(id => { activeRecipes.add(id); const btn = document.querySelector(`.recipe-toggle-btn[data-id="${id}"]`); if (btn) btn.classList.add('active'); }); }
+    const s = localStorage.getItem('glist-shop');
+    if (s) { JSON.parse(s).forEach(key => shopChecked.add(key)); }
+  } catch(e) {}
+  renderShoppingList();
+}
+
+renderToggles();
+loadState();
+</script>
+</body>
+</html>
