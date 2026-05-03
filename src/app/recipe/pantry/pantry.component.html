@@ -1,0 +1,153 @@
+<div class="pantry-page">
+  <mat-card class="pantry-add-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ 'app.recipes.pantry.addTitle' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="add-form">
+        <mat-form-field appearance="outline" class="f-name">
+          <mat-label>{{ 'app.recipes.pantry.name' | translate }}</mat-label>
+          <input matInput
+                 [(ngModel)]="name"
+                 [matAutocomplete]="ingAuto"
+                 (keyup.enter)="addItem()" />
+          <mat-autocomplete #ingAuto="matAutocomplete">
+            @for (o of filteredNames(); track o.key) {
+              <mat-option [value]="o.name">{{ o.name }}</mat-option>
+            }
+          </mat-autocomplete>
+          @if (name && !isKnownName()) {
+            <mat-hint class="warn-hint">{{ 'app.recipes.pantry.pickFromList' | translate }}</mat-hint>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="f-qty">
+          <mat-label>{{ 'app.recipes.pantry.qty' | translate }}</mat-label>
+          <input matInput type="number" step="0.1" min="0" [(ngModel)]="qty" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="f-unit">
+          <mat-label>{{ 'app.recipes.pantry.unit' | translate }}</mat-label>
+          <mat-select [(ngModel)]="unit">
+            <mat-option value="">—</mat-option>
+            @for (u of units; track u) {
+              <mat-option [value]="u">{{ u }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-expansion-panel class="optional-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ 'app.recipes.pantry.optional' | translate }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="opt-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'app.recipes.pantry.price' | translate }}</mat-label>
+              <input matInput type="number" step="0.01" min="0" [(ngModel)]="price" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'app.recipes.pantry.purchasedAt' | translate }}</mat-label>
+              <input matInput type="date" [(ngModel)]="purchasedAt" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="f-store">
+              <mat-label>{{ 'app.recipes.pantry.store' | translate }}</mat-label>
+              <input matInput [(ngModel)]="store" />
+            </mat-form-field>
+          </div>
+        </mat-expansion-panel>
+
+        <button mat-flat-button color="primary" class="add-btn"
+                (click)="addItem()" [disabled]="!isKnownName() || saving()">
+          <mat-icon>add</mat-icon>
+          {{ (saving() ? 'app.recipes.pantry.saving' : 'app.recipes.pantry.add') | translate }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  @if (!pantry.loaded()) {
+    <div class="skeleton-list">
+      @for (_ of skeletonRows; track $index) {
+        <div class="skeleton-item">
+          <div class="skeleton skeleton-line skeleton-title"></div>
+        </div>
+      }
+    </div>
+  } @else if (!pantry.items().length) {
+    <p class="empty-msg">{{ 'app.recipes.pantry.empty' | translate }}</p>
+  } @else {
+    <ul class="pantry-list">
+      @for (item of pantry.items(); track item.id) {
+        <li class="pantry-item">
+          @if (editingId() === item.id) {
+            <div class="edit-form">
+              <mat-form-field appearance="outline" class="f-name">
+                <mat-label>{{ 'app.recipes.pantry.name' | translate }}</mat-label>
+                <input matInput [(ngModel)]="editName" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="f-qty">
+                <mat-label>{{ 'app.recipes.pantry.qty' | translate }}</mat-label>
+                <input matInput type="number" step="0.1" min="0" [(ngModel)]="editQty" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="f-unit">
+                <mat-label>{{ 'app.recipes.pantry.unit' | translate }}</mat-label>
+                <mat-select [(ngModel)]="editUnit">
+                  <mat-option value="">—</mat-option>
+                  @for (u of units; track u) {
+                    <mat-option [value]="u">{{ u }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'app.recipes.pantry.price' | translate }}</mat-label>
+                <input matInput type="number" step="0.01" min="0" [(ngModel)]="editPrice" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'app.recipes.pantry.purchasedAt' | translate }}</mat-label>
+                <input matInput type="date" [(ngModel)]="editPurchasedAt" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="f-store">
+                <mat-label>{{ 'app.recipes.pantry.store' | translate }}</mat-label>
+                <input matInput [(ngModel)]="editStore" />
+              </mat-form-field>
+              <div class="edit-actions">
+                <button mat-stroked-button (click)="cancelEdit()">
+                  {{ 'app.recipes.pantry.cancel' | translate }}
+                </button>
+                <button mat-flat-button color="primary" (click)="saveEdit()">
+                  <mat-icon>save</mat-icon>
+                  {{ 'app.recipes.pantry.save' | translate }}
+                </button>
+              </div>
+            </div>
+          } @else {
+            <div class="row-main">
+              <span class="pi-name">{{ item.name }}</span>
+              <span class="pi-amount">
+                @if (item.qty != null) { {{ item.qty }}{{ item.unit ? ' ' + item.unit : '' }} }
+                @else if (item.raw) { {{ item.raw }} }
+              </span>
+            </div>
+            <div class="row-meta">
+              @if (item.store) {
+                <span class="pi-store"><mat-icon>store</mat-icon>{{ item.store }}</span>
+              }
+              @if (item.price != null) {
+                <span class="pi-price">{{ item.price }}</span>
+              }
+              @if (item.purchasedAt) {
+                <span class="pi-date">{{ item.purchasedAt | date: 'shortDate' }}</span>
+              }
+            </div>
+            <div class="row-actions">
+              <button mat-icon-button (click)="startEdit(item)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="removeItem(item.id)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+</div>

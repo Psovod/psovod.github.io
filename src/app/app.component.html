@@ -1,4 +1,4 @@
-<nav class="sticky top-0 dark z-10 px-2" [class.hidden-toolbar]="!toolbarVisible()">
+<nav class="sticky top-0 dark z-10" [class.hidden-toolbar]="!toolbarVisible() || toolbarHidden()">
   <mat-toolbar>
     <span class="flex-grow flex-shrink"></span>
     <a mat-button [routerLink]="['/projects']"><span [translate]="'app.nav.projects'"></span></a>
@@ -17,6 +17,6 @@
     </a>
   </mat-toolbar>
 </nav>
-<div class="dynamic-bg sm:p-5 p-0 h-lvh rounded">
+<div class="dynamic-bg h-lvh rounded" [class.sm:p-5]="!toolbarHidden()" [class.p-0]="toolbarHidden()">
   <router-outlet></router-outlet>
 </div>

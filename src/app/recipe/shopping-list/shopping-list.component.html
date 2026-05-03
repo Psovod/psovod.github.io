@@ -1,0 +1,128 @@
+<mat-card class="shopping-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{ 'app.recipes.shopping.builderTitle' | translate }}</mat-card-title>
+    <mat-card-subtitle>{{ 'app.recipes.shopping.builderHint2' | translate }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (!catalog.loaded() || !state.loaded()) {
+      <div class="skeleton-list">
+        @for (_ of skeletonRows; track $index) {
+          <div class="skeleton-item">
+            <div class="skeleton skeleton-cb"></div>
+            <div class="skeleton skeleton-line skeleton-title"></div>
+          </div>
+        }
+      </div>
+    } @else {
+    @if (activeRecipes().length) {
+      <div class="active-recipes-strip">
+        @for (r of activeRecipes(); track r.id) {
+          <div class="active-recipe-card">
+            <span class="arc-thumb" [class.has-img]="!!r.thumb">
+              @if (r.thumb) {
+                <img [src]="r.thumb" referrerpolicy="no-referrer" alt="" />
+              } @else {
+                <span>{{ r.emoji }}</span>
+              }
+            </span>
+            <span class="arc-label">{{ r.label }}</span>
+            <button mat-icon-button class="arc-remove" (click)="toggleRecipe(r.id)"
+                    [attr.aria-label]="'app.recipes.shopping.removeRecipe' | translate">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    }
+
+    <mat-form-field appearance="outline" class="add-recipe-field">
+      <mat-icon matPrefix>add</mat-icon>
+      <input matInput
+             [placeholder]="'app.recipes.shopping.addRecipe' | translate"
+             [ngModel]="addQuery()"
+             (ngModelChange)="addQuery.set($event)"
+             [matAutocomplete]="recAuto" />
+      <mat-autocomplete #recAuto="matAutocomplete" (optionSelected)="pickRecipe($event)">
+        @for (r of availableRecipes(); track r.id) {
+          <mat-option [value]="r.id">
+            <span class="ar-thumb">
+              @if (r.thumb) {
+                <img [src]="r.thumb" referrerpolicy="no-referrer" alt="" />
+              } @else {
+                <span>{{ r.emoji }}</span>
+              }
+            </span>
+            <span>{{ r.label }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    @if (!hasActive()) {
+      <p class="empty-msg">{{ 'app.recipes.shopping.empty' | translate }}</p>
+    } @else {
+      <div class="shop-list-actions">
+        <span class="shop-list-count">{{ countLabel() }}</span>
+        <button mat-stroked-button (click)="clearChecks()">
+          <mat-icon>clear_all</mat-icon>
+          {{ 'app.recipes.shopping.clear' | translate }}
+        </button>
+      </div>
+
+      @for (section of uncheckedSections(); track $index) {
+        <div class="shop-section">
+          <h4 class="shop-section-label" [style.color]="section.color">
+            @if (section.kind === 'shared') {
+              {{ 'app.recipes.shopping.shared' | translate }}
+            } @else {
+              {{ section.label }} {{ 'app.recipes.shopping.only' | translate }}
+            }
+          </h4>
+          <mat-list class="shop-list">
+            @for (item of section.items; track item.key) {
+              <mat-list-item class="shop-item"
+                             [class.checked]="isChecked(item.key)"
+                             (click)="toggleItem(item.key)">
+                <mat-checkbox class="shop-cb"
+                              [checked]="isChecked(item.key)"
+                              [disableRipple]="true">
+                </mat-checkbox>
+                <span class="shop-item-name" matListItemTitle>{{ item.name }}</span>
+                <span matListItemMeta class="shop-item-right">
+                  @if (item.amounts.length) {
+                    <span class="shop-item-amount">{{ formatAmounts(item) }}</span>
+                  }
+                </span>
+              </mat-list-item>
+            }
+          </mat-list>
+        </div>
+      }
+
+      @if (checkedItems().length) {
+        <div class="shop-section shop-section-checked">
+          <h4 class="shop-section-label">{{ 'app.recipes.shopping.checked' | translate }}</h4>
+          <mat-list class="shop-list">
+            @for (item of checkedItems(); track item.key) {
+              <mat-list-item class="shop-item checked"
+                             (click)="toggleItem(item.key)">
+                <mat-checkbox class="shop-cb"
+                              [checked]="true"
+                              [disableRipple]="true">
+                </mat-checkbox>
+                <span class="shop-item-name" matListItemTitle>{{ item.name }}</span>
+                <span matListItemMeta class="shop-item-right">
+                  @if (item.amounts.length) {
+                    <span class="shop-item-amount">{{ formatAmounts(item) }}</span>
+                  }
+                </span>
+              </mat-list-item>
+            }
+          </mat-list>
+        </div>
+      }
+    }
+    }
+  </mat-card-content>
+</mat-card>

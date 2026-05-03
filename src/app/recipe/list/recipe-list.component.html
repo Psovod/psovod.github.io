@@ -1,0 +1,136 @@
+<div class="list-controls">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput type="text" [placeholder]="'app.recipes.list.search' | translate"
+           [ngModel]="query()" (ngModelChange)="query.set($event)" />
+    @if (query()) {
+      <button mat-icon-button matSuffix (click)="query.set('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="rating-field">
+    <mat-select [placeholder]="'app.recipes.list.filterRating' | translate"
+                [ngModel]="minRating()" (ngModelChange)="minRating.set($event)">
+      <mat-select-trigger>
+        @if (minRating() === 0) {
+          {{ 'app.recipes.list.ratingAny' | translate }}
+        } @else {
+          <span class="select-stars">
+            @for (i of [1,2,3,4,5]; track i) {
+              <mat-icon>{{ i <= minRating() ? 'star' : 'star_border' }}</mat-icon>
+            }
+          </span>
+        }
+      </mat-select-trigger>
+      <mat-option [value]="0">{{ 'app.recipes.list.ratingAny' | translate }}</mat-option>
+      @for (i of [1,2,3,4,5]; track i) {
+        <mat-option [value]="i">
+          <span class="select-stars">
+            @for (s of [1,2,3,4,5]; track s) {
+              <mat-icon>{{ s <= i ? 'star' : 'star_border' }}</mat-icon>
+            }
+          </span>
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  @if (query() || minRating() > 0) {
+    <button mat-button (click)="clearFilters()">
+      <mat-icon>clear_all</mat-icon>
+      {{ 'app.recipes.list.clearFilters' | translate }}
+    </button>
+  }
+</div>
+
+@if (!similarDismissed() && similarCount()) {
+  <div class="similar-warning">
+    <mat-icon>warning_amber</mat-icon>
+    <span class="sw-text">{{ 'app.recipes.list.similarTitle' | translate: { n: similarCount() } }}</span>
+    <a mat-button [routerLink]="['/recipes', 'settings']">
+      {{ 'app.recipes.list.similarReview' | translate }}
+    </a>
+    <button mat-icon-button class="sw-close" (click)="dismissSimilar()"
+            [attr.aria-label]="'app.recipes.list.similarDismiss' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+}
+
+<div class="recipes-grid">
+  @if (!catalog.loaded()) {
+    @for (_ of skeletonCount; track $index) {
+      <article class="recipe-tile skeleton-tile">
+        <div class="skeleton skeleton-thumb"></div>
+        <div class="tile-body">
+          <div class="skeleton skeleton-line skeleton-title"></div>
+          <div class="skeleton skeleton-line skeleton-sub"></div>
+        </div>
+      </article>
+    }
+  } @else {
+  @for (d of displayed(); track d.recipe.id) {
+    <article class="recipe-tile" [ngClass]="'tile-' + d.recipe.color">
+      <a class="tile-thumb" [routerLink]="['/recipes', d.recipe.id]">
+        @if (d.recipe.thumb) {
+          <img [src]="d.recipe.thumb" referrerpolicy="no-referrer" alt="">
+        } @else {
+          <span class="tile-emoji">{{ d.recipe.emoji }}</span>
+        }
+      </a>
+      <div class="tile-body">
+        <a class="tile-name" [routerLink]="['/recipes', d.recipe.id]">{{ d.recipe.label }}</a>
+
+        @if (d.stars.length) {
+          <div class="tile-stars" [title]="d.avg + ' / 5'">
+            @for (s of d.stars; track $index) {
+              @switch (s) {
+                @case ('full') { <mat-icon>star</mat-icon> }
+                @case ('half') { <mat-icon>star_half</mat-icon> }
+                @case ('empty') { <mat-icon>star_border</mat-icon> }
+              }
+            }
+            <span class="avg-label">{{ d.avg }}</span>
+          </div>
+        }
+
+        @if (d.count) {
+          <div class="tile-meta">
+            <mat-icon>restaurant</mat-icon>
+            <span>{{ 'app.recipes.detail.cook.count' | translate: { n: d.count } }}</span>
+          </div>
+        }
+
+        @if (d.matchPct != null) {
+          <div class="tile-pantry" [class.full]="d.matchPct === 100">
+            <mat-icon>inventory_2</mat-icon>
+            <span>{{ 'app.recipes.list.pantryMatch' | translate: { matched: d.matchedCount, total: d.totalCount } }}</span>
+            <span class="pct">{{ d.matchPct }}%</span>
+          </div>
+        }
+
+        <div class="tile-links">
+          @if (d.recipe.externalUrl) {
+            <a mat-stroked-button class="tile-btn"
+               [href]="d.recipe.externalUrl" target="_blank" rel="noopener">
+              <mat-icon>open_in_new</mat-icon>
+              {{ 'app.recipes.list.viewRecipe' | translate }}
+            </a>
+          } @else {
+            <span class="tile-no-link">{{ 'app.recipes.list.noLink' | translate }}</span>
+          }
+          <a mat-flat-button class="tile-btn tile-btn-primary"
+             [routerLink]="['/recipes', d.recipe.id]">
+            <mat-icon>arrow_forward</mat-icon>
+            {{ 'app.recipes.list.open' | translate }}
+          </a>
+        </div>
+      </div>
+    </article>
+  } @empty {
+    <p class="empty-msg">{{ 'app.recipes.list.noResults' | translate }}</p>
+  }
+  }
+</div>

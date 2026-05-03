@@ -1,0 +1,183 @@
+:host {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: var(--mat-sys-surface, #faf6f0);
+  color: var(--mat-sys-on-surface, #1e1a16);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.cook-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: clamp(16px, 4vw, 32px);
+  gap: clamp(12px, 3vw, 24px);
+}
+
+.cook-shell.loading {
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  .skeleton-line {
+    width: min(60%, 320px);
+  }
+}
+
+.cook-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 6px;
+
+  .exit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  .head-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .phase-chip {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #fff;
+    background: #555;
+  }
+}
+
+.phase-prep .phase-chip { background: #4a6741; }
+.phase-cook .phase-chip { background: #c4512a; }
+
+.cook-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  min-height: 0;
+
+  .step-text {
+    font-family: Georgia, serif;
+    font-size: clamp(1.3rem, 3.4vw, 2rem);
+    line-height: 1.35;
+    margin: 0;
+  }
+}
+
+.ing-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ing-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.timer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.timer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 22px;
+  border: 1.5px solid rgba(184, 132, 10, 0.5);
+  background: rgba(184, 132, 10, 0.12);
+  color: #b8840a;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .timer-value {
+    font-weight: 600;
+    min-width: 48px;
+    text-align: right;
+  }
+
+  &:hover {
+    background: rgba(184, 132, 10, 0.22);
+  }
+
+  &.running {
+    background: #b8840a;
+    color: #fff;
+    border-color: #b8840a;
+  }
+
+  &.running.done {
+    animation: timer-pulse 0.8s ease-in-out infinite;
+    background: #b14a3c;
+    border-color: #b14a3c;
+  }
+}
+
+@keyframes timer-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(177, 74, 60, 0.5); }
+  50%      { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(177, 74, 60, 0); }
+}
+
+.cook-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+
+  .nav-btn {
+    min-width: 110px;
+    height: 44px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .global-progress {
+    font-size: 12px;
+    opacity: 0.65;
+  }
+}

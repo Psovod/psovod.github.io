@@ -1,8 +1,10 @@
-import { Component, HostListener, inject, signal, WritableSignal } from '@angular/core';
+import { Component, HostListener, inject, signal, WritableSignal, computed } from '@angular/core';
 import { MaterialModule } from './material/material.module';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs/operators';
 import { TranslateDirective, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import defaultLanguage from '../../public/i18n/cs.json';
 import { PreferredThemeService } from './shared/services/preferred-theme.service';
@@ -21,6 +23,15 @@ export class AppComponent {
   private iconRegistry = inject(MatIconRegistry);
   private sanitizer = inject(DomSanitizer);
   private hljsLoader: HighlightLoader = inject(HighlightLoader);
+  private router = inject(Router);
+  private navEnd = toSignal(
+    this.router.events.pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd)),
+    { initialValue: null },
+  );
+  public toolbarHidden = computed(() => {
+    const url = this.navEnd()?.urlAfterRedirects ?? this.router.url;
+    return url.startsWith('/recipes');
+  });
   GITHUB_URL = 'https://github.com/Psovod';
   LINKEDIN_URL = 'https://www.linkedin.com/in/pavlikson';
   lastScrollTop = 0;

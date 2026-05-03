@@ -5,7 +5,28 @@
     @include mat.button-overrides((text-label-text-transform: uppercase));
 }
 
-.hidden-toolbar {
+nav.hidden-toolbar {
     transform: translateY(-100%);
-    transition: transform 0.3s ease-in-out;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+nav {
+    max-width: 100vw;
+    overflow-x: clip;
+}
+
+mat-toolbar {
+    padding-left: 0;
+    padding-right: 0;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }

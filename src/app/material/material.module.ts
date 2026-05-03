@@ -11,6 +11,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [],
@@ -27,6 +33,12 @@ import { MatListModule } from '@angular/material/list';
     MatDialogModule,
     MatTabsModule,
     MatListModule,
+    MatCheckboxModule,
+    MatBadgeModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonToggleModule,
   ],
   exports: [
     MatButtonModule,
@@ -41,6 +53,12 @@ import { MatListModule } from '@angular/material/list';
     MatDialogModule,
     MatTabsModule,
     MatListModule,
+    MatCheckboxModule,
+    MatBadgeModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonToggleModule,
   ],
   providers: [],
 })

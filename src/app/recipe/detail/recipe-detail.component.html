@@ -1,0 +1,211 @@
+@if (recipe(); as r) {
+  <section class="detail-head" [ngClass]="'tile-' + r.color">
+    @if (r.thumb) {
+      <img class="hero-thumb" [src]="r.thumb" referrerpolicy="no-referrer" alt="" />
+    } @else {
+      <div class="hero-thumb emoji"><span>{{ r.emoji }}</span></div>
+    }
+    <div class="hero-body">
+      <h2>{{ r.label }}</h2>
+      @if (cookCount()) {
+        <div class="hero-meta">
+          <span><mat-icon>restaurant</mat-icon> {{ 'app.recipes.detail.cook.count' | translate: { n: cookCount() } }}</span>
+          @if (avgRating(); as a) {
+            <span><mat-icon>star</mat-icon> {{ 'app.recipes.detail.cook.avg' | translate: { avg: a } }}</span>
+          }
+        </div>
+      }
+      <div class="hero-actions">
+        <a mat-flat-button color="primary" class="hero-btn"
+           [routerLink]="['/recipes', r.id, 'cook']">
+          <mat-icon>play_arrow</mat-icon>
+          <span>{{ 'app.recipes.detail.startCooking' | translate }}</span>
+        </a>
+        <button mat-stroked-button class="hero-btn" (click)="logCook()">
+          <mat-icon>restaurant</mat-icon>
+          <span>{{ 'app.recipes.detail.cook.mark' | translate }}</span>
+        </button>
+        <a mat-stroked-button class="hero-btn"
+           [routerLink]="['/recipes', r.id, 'edit']">
+          <mat-icon>edit</mat-icon>
+          <span>{{ 'app.recipes.detail.edit' | translate }}</span>
+        </a>
+        <button mat-stroked-button class="hero-btn"
+                [class.active-shopping]="isInShopping()"
+                (click)="toggleShopping()">
+          <mat-icon>{{ isInShopping() ? 'remove_shopping_cart' : 'add_shopping_cart' }}</mat-icon>
+          <span>{{ (isInShopping() ? 'app.recipes.detail.removeFromShopping' : 'app.recipes.detail.addToShopping') | translate }}</span>
+        </button>
+        @if (r.externalUrl) {
+          <a mat-stroked-button class="hero-btn"
+             [href]="r.externalUrl" target="_blank" rel="noopener">
+            <mat-icon>open_in_new</mat-icon>
+            <span>{{ 'app.recipes.list.viewRecipe' | translate }}</span>
+          </a>
+        }
+        <button mat-stroked-button class="hero-btn danger" (click)="deleteRecipe()">
+          <mat-icon>delete</mat-icon>
+          <span>{{ 'app.recipes.detail.delete' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="controls">
+    <div class="control">
+      <span class="label">{{ 'app.recipes.detail.servings' | translate }}</span>
+      <div class="stepper">
+        <button mat-icon-button (click)="decServings()" [disabled]="currentServings() <= 1">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <span class="stepper-value">{{ currentServings() }}</span>
+        <button mat-icon-button (click)="incServings()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <mat-tab-group class="detail-tabs">
+    <mat-tab [label]="'app.recipes.detail.tabs.ingredients' | translate">
+      <div class="tab-body">
+        @for (section of effectiveSections(); track $index) {
+          <div class="ingredient-section">
+            @if (section.id) {
+              <h4 class="section-title">{{ section.id }}</h4>
+            }
+            <ul class="ingredient-list">
+              @for (it of section.items; track it.key) {
+                <li class="ingredient-row" [class.overridden]="it.isOverridden" [class.removed]="it.isRemoved">
+                  <span class="ing-name">
+                    {{ it.name }}
+                    @if (it.conversion) {
+                      <small class="ing-conv">{{ it.conversion }}</small>
+                    }
+                  </span>
+                  <span class="ing-amount">{{ it.display }}</span>
+                  @if (!it.isRemoved) {
+                    <button mat-icon-button (click)="editIngredient(it)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    @if (it.isOverridden) {
+                      <button mat-icon-button (click)="resetIngredient(it.key)">
+                        <mat-icon>restart_alt</mat-icon>
+                      </button>
+                    }
+                    <button mat-icon-button (click)="toggleIngredientRemoved(it.key)">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                  } @else {
+                    <button mat-icon-button (click)="toggleIngredientRemoved(it.key)">
+                      <mat-icon>add_circle_outline</mat-icon>
+                    </button>
+                  }
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="'app.recipes.detail.tabs.steps' | translate">
+      <div class="tab-body">
+        @if (stepGroups().length) {
+          @for (group of stepGroups(); track group.phase) {
+            <h4 class="phase-title" [class.phase-prep]="group.phase === 'prep'"
+                [class.phase-cook]="group.phase === 'cook'">
+              {{ 'app.recipes.detail.phase.' + group.phase | translate }}
+            </h4>
+            <ol class="steps-list">
+              @for (step of group.items; track step.id) {
+                <li class="step-item">
+                  <div class="step-text">{{ step.text }}</div>
+                  @if (step.ingredientNames.length) {
+                    <div class="step-ingredients">
+                      @for (n of step.ingredientNames; track n) {
+                        <span class="ing-chip">{{ n }}</span>
+                      }
+                    </div>
+                  }
+                  @if (step.timers.length) {
+                    <div class="step-timers">
+                      @for (t of step.timers; track $index) {
+                        <span class="timer-chip">
+                          <mat-icon>timer</mat-icon>
+                          {{ t.label }} · {{ t.minutes }} min
+                        </span>
+                      }
+                    </div>
+                  }
+                </li>
+              }
+            </ol>
+          }
+        } @else {
+          <p class="empty">{{ 'app.recipes.detail.steps.empty' | translate }}</p>
+        }
+      </div>
+    </mat-tab>
+
+    @if (hasPantryItems()) {
+      <mat-tab [label]="'app.recipes.detail.tabs.missing' | translate">
+        <div class="tab-body">
+          @if (!missingIngredients().length) {
+            <p class="empty">{{ 'app.recipes.detail.missing.none' | translate }}</p>
+          } @else {
+            <ul class="missing-list">
+              @for (name of missingIngredients(); track name) {
+                <li class="missing-item">
+                  <mat-icon>close</mat-icon>
+                  <span>{{ name }}</span>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      </mat-tab>
+    }
+
+    <mat-tab [label]="'app.recipes.detail.tabs.cooklog' | translate">
+      <div class="tab-body">
+        @if (userState().ratings.length) {
+          <ul class="cook-log">
+            @for (entry of userState().ratings; track entry.date; let i = $index) {
+              <li class="cook-entry">
+                <span class="date">{{ entry.date | date: 'mediumDate' }}</span>
+                <span class="rating">
+                  @for (s of [1,2,3,4,5]; track s) {
+                    <mat-icon>{{ s <= entry.rating ? 'star' : 'star_border' }}</mat-icon>
+                  }
+                </span>
+                @if (entry.note) {
+                  <span class="note">{{ entry.note }}</span>
+                }
+                <button mat-icon-button (click)="deleteCook(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">{{ 'app.recipes.detail.cook.empty' | translate }}</p>
+        }
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+} @else if (!catalog.loaded()) {
+  <section class="detail-head">
+    <div class="skeleton hero-thumb skeleton-thumb"></div>
+    <div class="hero-body">
+      <div class="skeleton skeleton-line skeleton-title"></div>
+      <div class="skeleton skeleton-line skeleton-sub"></div>
+    </div>
+  </section>
+} @else {
+  <p class="empty">{{ 'app.recipes.detail.notFound' | translate }}</p>
+  <button mat-button (click)="backToList()">
+    <mat-icon>arrow_back</mat-icon>
+    {{ 'app.recipes.nav.list' | translate }}
+  </button>
+}

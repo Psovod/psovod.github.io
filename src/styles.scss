@@ -28,3 +28,73 @@ html.light {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.mat-mdc-form-field-subscript-wrapper,
+.mat-mdc-form-field-bottom-align::before {
+  display: none !important;
+  height: 0 !important;
+}
+
+// Consistent outlined field appearance across the whole app
+.mdc-notched-outline__notch {
+  border-right: none !important;
+  border-left: none !important;
+  padding: 0 !important;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 40px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.mdc-text-field--outlined .mat-mdc-form-field-infix,
+.mdc-text-field--no-label .mat-mdc-form-field-infix {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+// Plain native inputs — reset browser default appearance so they render as a
+// clean outlined box everywhere (Safari, Firefox, Chrome dark mode etc.)
+input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]),
+select,
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(128, 128, 128, 0.12) 0%,
+        rgba(128, 128, 128, 0.22) 50%,
+        rgba(128, 128, 128, 0.12) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.3s ease-in-out infinite;
+    border-radius: 6px;
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-line {
+    height: 12px;
+    margin: 6px 0;
+}
+
+.skeleton-title {
+    height: 18px;
+    width: 70%;
+}
+
+.skeleton-sub {
+    height: 11px;
+    width: 45%;
+}

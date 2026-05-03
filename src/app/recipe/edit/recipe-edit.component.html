@@ -1,0 +1,250 @@
+<div class="edit-wrapper">
+  <header class="edit-head">
+    <h2>
+      @if (isEditing()) {
+        {{ 'app.recipes.edit.titleEdit' | translate }}
+      } @else {
+        {{ 'app.recipes.edit.titleNew' | translate }}
+      }
+    </h2>
+    <div class="head-actions">
+      <button mat-stroked-button (click)="openImport()">
+        <mat-icon>content_paste</mat-icon>
+        {{ 'app.recipes.edit.importText' | translate }}
+      </button>
+      <button mat-stroked-button (click)="cancel()">{{ 'app.recipes.edit.cancel' | translate }}</button>
+      <button mat-flat-button color="primary" (click)="save()" [disabled]="saving() || uploading()">
+        <mat-icon>save</mat-icon>
+        {{ saving() ? ('app.recipes.edit.saving' | translate) : ('app.recipes.edit.save' | translate) }}
+      </button>
+    </div>
+  </header>
+
+  @if (error(); as err) {
+    <div class="error-box">{{ err }}</div>
+  }
+
+  <!-- Image -->
+  <section class="edit-section">
+    <h3>{{ 'app.recipes.edit.image' | translate }}</h3>
+    <div class="image-row">
+      <div class="image-preview">
+        @if (draft().thumb) {
+          <img [src]="draft().thumb" referrerpolicy="no-referrer" alt="" />
+        } @else {
+          <div class="placeholder">
+            <mat-icon>image</mat-icon>
+          </div>
+        }
+      </div>
+      <div class="image-actions">
+        <label class="file-btn" mat-stroked-button>
+          <input type="file" accept="image/*" (change)="onImagePicked($event)" hidden />
+          <mat-icon>upload</mat-icon>
+          {{ uploading() ? ('app.recipes.edit.uploading' | translate) : ('app.recipes.edit.pickImage' | translate) }}
+        </label>
+        @if (draft().thumb) {
+          <button mat-stroked-button (click)="removeImage()">
+            <mat-icon>delete_outline</mat-icon>
+            {{ 'app.recipes.edit.removeImage' | translate }}
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Basic fields -->
+  <section class="edit-section">
+    <h3>{{ 'app.recipes.edit.basics' | translate }}</h3>
+    <div class="grid two">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'app.recipes.edit.name' | translate }}</mat-label>
+        <input matInput [ngModel]="draft().label" (ngModelChange)="updateLabel($event)" />
+      </mat-form-field>
+
+      <div class="color-picker">
+        <span class="color-picker-label">{{ 'app.recipes.edit.color' | translate }}</span>
+        <div class="color-swatches">
+          @for (c of colors; track c) {
+            <button type="button"
+                    class="color-swatch"
+                    [class.selected]="draft().color === c"
+                    [style.background]="colorHex(c)"
+                    [title]="c"
+                    (click)="updateColor(c)">
+            </button>
+          }
+        </div>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'app.recipes.edit.emoji' | translate }}</mat-label>
+        <input matInput [ngModel]="draft().emoji" (ngModelChange)="updateEmoji($event)" maxlength="4" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'app.recipes.edit.baseServings' | translate }}</mat-label>
+        <input matInput type="number" min="1"
+               [ngModel]="draft().baseServings"
+               (ngModelChange)="updateBaseServings($event)" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>{{ 'app.recipes.edit.externalUrl' | translate }}</mat-label>
+        <input matInput type="url" [ngModel]="draft().externalUrl"
+               (ngModelChange)="updateExternalUrl($event)" />
+      </mat-form-field>
+    </div>
+  </section>
+
+  <!-- Ingredients -->
+  <section class="edit-section">
+    <div class="section-head">
+      <h3>{{ 'app.recipes.edit.ingredients' | translate }}</h3>
+      <button mat-stroked-button (click)="addSection()">
+        <mat-icon>add</mat-icon>
+        {{ 'app.recipes.edit.addSection' | translate }}
+      </button>
+    </div>
+
+    @for (section of draft().sections; track $index; let si = $index) {
+      <div class="ingredient-section-card">
+        <div class="section-title-row">
+          <mat-form-field appearance="outline" class="section-label">
+            <mat-label>{{ 'app.recipes.edit.sectionLabel' | translate }}</mat-label>
+            <input matInput [ngModel]="section.label"
+                   (ngModelChange)="updateSectionLabel(si, $event)" />
+          </mat-form-field>
+          @if (draft().sections.length > 1) {
+            <button mat-icon-button (click)="removeSection(si)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          }
+        </div>
+
+        @for (item of section.items; track $index; let ii = $index) {
+          <div class="ing-row">
+            <input class="ing-name" type="text"
+                   [placeholder]="'app.recipes.edit.ingName' | translate"
+                   [ngModel]="item.name"
+                   (ngModelChange)="updateIngredient(si, ii, { name: $event })" />
+            <input class="ing-qty" type="number" step="0.01"
+                   [placeholder]="'app.recipes.edit.qty' | translate"
+                   [ngModel]="item.qty ?? null"
+                   (ngModelChange)="updateIngredient(si, ii, { qty: $event ?? undefined })" />
+            <select class="ing-unit"
+                    [ngModel]="item.unit ?? ''"
+                    (ngModelChange)="updateIngredient(si, ii, { unit: $event || undefined })">
+              <option value="">—</option>
+              @for (u of units; track u) {
+                <option [value]="u">{{ u }}</option>
+              }
+            </select>
+            <input class="ing-raw" type="text"
+                   [placeholder]="'app.recipes.edit.rawHint' | translate"
+                   [ngModel]="item.raw ?? ''"
+                   (ngModelChange)="updateIngredient(si, ii, { raw: $event || undefined })" />
+            <button mat-icon-button (click)="removeIngredient(si, ii)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+        <button mat-button (click)="addIngredient(si)">
+          <mat-icon>add</mat-icon>
+          {{ 'app.recipes.edit.addIngredient' | translate }}
+        </button>
+      </div>
+    }
+  </section>
+
+  <!-- Steps -->
+  <section class="edit-section">
+    <h3>{{ 'app.recipes.edit.steps' | translate }}</h3>
+
+    @for (phase of ['prep', 'cook']; track phase) {
+      <div class="phase-card" [class.phase-prep]="phase === 'prep'" [class.phase-cook]="phase === 'cook'">
+        <div class="phase-head">
+          <h4>{{ 'app.recipes.detail.phase.' + phase | translate }}</h4>
+          <button mat-stroked-button (click)="addStep(phase === 'prep' ? 'prep' : 'cook')">
+            <mat-icon>add</mat-icon>
+            {{ 'app.recipes.edit.addStep' | translate }}
+          </button>
+        </div>
+
+        @for (entry of stepsForPhase(phase === 'prep' ? 'prep' : 'cook'); track entry.idx; let i = $index) {
+          <div class="step-card">
+            <div class="step-card-head">
+              <span class="step-num">{{ i + 1 }}</span>
+              <button mat-icon-button (click)="moveStep(entry.idx, -1)">
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button mat-icon-button (click)="moveStep(entry.idx, 1)">
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+              <span class="flex-grow"></span>
+              <button mat-icon-button (click)="removeStep(entry.idx)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+
+            <textarea
+              [placeholder]="'app.recipes.edit.stepText' | translate"
+              [ngModel]="entry.step.text"
+              (ngModelChange)="updateStepText(entry.idx, $event)"
+              rows="2"></textarea>
+
+            @if (ingredientOptions().length) {
+              <div class="ing-pick">
+                <div class="ing-pick-label">{{ 'app.recipes.edit.stepIngredients' | translate }}</div>
+                <div class="ing-pick-chips">
+                  @for (opt of ingredientOptions(); track opt.ref) {
+                    <button type="button"
+                            class="ing-chip-toggle"
+                            [class.active]="entry.step.ingredientRefs.includes(opt.ref)"
+                            (click)="toggleStepIngredient(entry.idx, opt.ref)">
+                      {{ opt.label }}
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+
+            <div class="timers-block">
+              <div class="timers-head">
+                <span>{{ 'app.recipes.edit.timers' | translate }}</span>
+                <button mat-button (click)="addTimer(entry.idx)">
+                  <mat-icon>add</mat-icon>
+                  {{ 'app.recipes.edit.addTimer' | translate }}
+                </button>
+              </div>
+              @for (t of entry.step.timers; track $index; let ti = $index) {
+                <div class="timer-row">
+                  <input class="timer-label" type="text"
+                         [placeholder]="'app.recipes.edit.timerLabel' | translate"
+                         [ngModel]="t.label"
+                         (ngModelChange)="updateTimer(entry.idx, ti, { label: $event })" />
+                  <input class="timer-min" type="number" min="1"
+                         [placeholder]="'app.recipes.edit.timerMinutes' | translate"
+                         [ngModel]="t.minutes"
+                         (ngModelChange)="updateTimerMinutes(entry.idx, ti, $event)" />
+                  <span class="unit-suffix">min</span>
+                  <button mat-icon-button (click)="removeTimer(entry.idx, ti)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <footer class="edit-foot">
+    <button mat-stroked-button (click)="cancel()">{{ 'app.recipes.edit.cancel' | translate }}</button>
+    <button mat-flat-button color="primary" (click)="save()" [disabled]="saving() || uploading()">
+      <mat-icon>save</mat-icon>
+      {{ saving() ? ('app.recipes.edit.saving' | translate) : ('app.recipes.edit.save' | translate) }}
+    </button>
+  </footer>
+</div>

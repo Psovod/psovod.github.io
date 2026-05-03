@@ -1,0 +1,85 @@
+@if (recipe(); as r) {
+  @if (currentStep(); as s) {
+    <div class="cook-shell" [class.phase-prep]="s.phase === 'prep'" [class.phase-cook]="s.phase === 'cook'">
+      <header class="cook-head">
+        <a class="exit-btn" [routerLink]="['/recipes', r.id]">
+          <mat-icon>close</mat-icon>
+        </a>
+        <div class="head-info">
+          <span class="phase-chip">
+            {{ 'app.recipes.detail.phase.' + s.phase | translate }}
+          </span>
+          <span class="progress">{{ phaseCount().current }} / {{ phaseCount().total }}</span>
+        </div>
+      </header>
+
+      <section class="cook-body">
+        <p class="step-text">{{ s.step.text }}</p>
+
+        @if (s.ingredientNames.length) {
+          <div class="ing-row">
+            @for (n of s.ingredientNames; track n) {
+              <span class="ing-chip">{{ n }}</span>
+            }
+          </div>
+        }
+
+        @if (s.step.timers.length) {
+          <div class="timer-row">
+            @for (t of s.step.timers; track $index; let i = $index) {
+              @let running = findRunning(s.step.id ?? 0, i);
+              @if (running) {
+                <button class="timer-chip running"
+                        [class.done]="isFinished(running)"
+                        (click)="checkAndBeep(running); stopTimer(s.step.id ?? 0, i)">
+                  <mat-icon>timer</mat-icon>
+                  <span class="timer-label">{{ t.label }}</span>
+                  <span class="timer-value">{{ formatTime(remainingSeconds(running)) }}</span>
+                </button>
+              } @else {
+                <button class="timer-chip"
+                        (click)="startTimer(s.step.id ?? 0, i, t.minutes, t.label)">
+                  <mat-icon>play_arrow</mat-icon>
+                  <span class="timer-label">{{ t.label }}</span>
+                  <span class="timer-value">{{ t.minutes }} min</span>
+                </button>
+              }
+            }
+          </div>
+        }
+      </section>
+
+      <footer class="cook-foot">
+        <button mat-flat-button class="nav-btn" (click)="prev()" [disabled]="stepIndex() === 0">
+          <mat-icon>arrow_back</mat-icon>
+          {{ 'app.recipes.cook.prev' | translate }}
+        </button>
+        <div class="global-progress">
+          {{ stepIndex() + 1 }} / {{ totalSteps() }}
+        </div>
+        <button mat-flat-button color="primary" class="nav-btn"
+                (click)="next()" [disabled]="stepIndex() >= totalSteps() - 1">
+          {{ 'app.recipes.cook.next' | translate }}
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </footer>
+    </div>
+  } @else {
+    <div class="cook-shell loading">
+      <p>{{ 'app.recipes.cook.empty' | translate }}</p>
+      <button mat-stroked-button (click)="exit()">
+        <mat-icon>arrow_back</mat-icon>
+        {{ 'app.recipes.nav.list' | translate }}
+      </button>
+    </div>
+  }
+} @else if (!catalog.loaded()) {
+  <div class="cook-shell loading">
+    <div class="skeleton skeleton-line skeleton-title"></div>
+    <div class="skeleton skeleton-line skeleton-sub"></div>
+  </div>
+} @else {
+  <div class="cook-shell loading">
+    <p>{{ 'app.recipes.detail.notFound' | translate }}</p>
+  </div>
+}

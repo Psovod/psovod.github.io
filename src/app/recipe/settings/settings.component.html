@@ -1,0 +1,70 @@
+<div class="settings-page">
+  <mat-card appearance="outlined" class="settings-card">
+    <mat-card-header>
+      <mat-card-title>{{ 'app.recipes.settings.language' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="lang-row">
+        <mat-button-toggle-group [value]="currentLang()" (change)="setLang($event.value)">
+          <mat-button-toggle value="en">English</mat-button-toggle>
+          <mat-button-toggle value="cs">Čeština</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card appearance="outlined" class="settings-card">
+    <mat-card-header>
+      <mat-card-title>{{ 'app.recipes.settings.similarTitle' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'app.recipes.list.similarHint' | translate }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      @if (!similarClusters().length) {
+        <p class="empty-msg">{{ 'app.recipes.settings.similarEmpty' | translate }}</p>
+      } @else if (!showSimilar()) {
+        <div class="reveal-row">
+          <span class="reveal-count">{{ 'app.recipes.list.similarTitle' | translate: { n: similarClusters().length } }}</span>
+          <button mat-flat-button color="primary" (click)="showSimilar.set(true)">
+            <mat-icon>visibility</mat-icon>
+            {{ 'app.recipes.list.similarReview' | translate }}
+          </button>
+        </div>
+      } @else {
+        <div class="reveal-row">
+          <span class="reveal-count">{{ 'app.recipes.list.similarTitle' | translate: { n: similarClusters().length } }}</span>
+          <button mat-stroked-button (click)="showSimilar.set(false)">
+            <mat-icon>visibility_off</mat-icon>
+            {{ 'app.recipes.settings.hide' | translate }}
+          </button>
+        </div>
+        <ul class="sw-list">
+          @for (c of similarClusters(); track c.keys.join('|')) {
+            <li class="sw-cluster">
+              <div class="sw-names">
+                @for (n of c.names; track $index; let i = $index) {
+                  <label class="sw-check">
+                    <mat-checkbox [checked]="isSelected(c, c.keys[i])"
+                                  (change)="toggleSelected(c, c.keys[i], $event.checked)"></mat-checkbox>
+                    <span>{{ n }}</span>
+                  </label>
+                }
+              </div>
+              <div class="sw-merge">
+                <mat-form-field appearance="outline" class="sw-field">
+                  <mat-label>{{ 'app.recipes.list.similarMergeTo' | translate }}</mat-label>
+                  <input matInput [value]="c.suggested" #mergeInput />
+                </mat-form-field>
+                <button mat-flat-button color="primary"
+                        [disabled]="merging() === c.keys.join('|') || selectedFor(c).length < 2"
+                        (click)="mergeCluster(c, mergeInput.value, selectedFor(c))">
+                  <mat-icon>merge_type</mat-icon>
+                  {{ (merging() === c.keys.join('|') ? 'app.recipes.list.similarMerging' : 'app.recipes.list.similarMerge') | translate }}
+                </button>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

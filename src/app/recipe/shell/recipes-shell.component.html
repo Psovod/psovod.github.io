@@ -1,0 +1,35 @@
+<header class="recipes-header">
+  <nav mat-tab-nav-bar class="recipes-tabs" color="primary" [tabPanel]="tabPanel">
+    <a mat-tab-link [routerLink]="['/recipes']" routerLinkActive #listLink="routerLinkActive"
+       [routerLinkActiveOptions]="{ exact: true }" [active]="listLink.isActive">
+      {{ 'app.recipes.nav.list' | translate }}
+    </a>
+    <a mat-tab-link [routerLink]="['/recipes', 'shopping-list']" routerLinkActive #shopLink="routerLinkActive"
+       [active]="shopLink.isActive">
+      {{ 'app.recipes.nav.shopping' | translate }}
+    </a>
+    <a mat-tab-link [routerLink]="['/recipes', 'storage']" routerLinkActive #storageLink="routerLinkActive"
+       [active]="storageLink.isActive">
+      {{ 'app.recipes.nav.storage' | translate }}
+    </a>
+    <a mat-tab-link [routerLink]="['/recipes', 'settings']" routerLinkActive #settingsLink="routerLinkActive"
+       [active]="settingsLink.isActive">
+      {{ 'app.recipes.nav.settings' | translate }}
+    </a>
+  </nav>
+  <div class="recipes-actions">
+    <a mat-flat-button color="primary" class="new-btn" [routerLink]="['/recipes', 'new']">
+      <mat-icon>add</mat-icon>
+      <span class="btn-label">{{ 'app.recipes.edit.new' | translate }}</span>
+    </a>
+    <button mat-button class="export-btn" (click)="exportAll()">
+      <mat-icon>download</mat-icon>
+      <span class="btn-label">{{ 'app.recipes.detail.export' | translate }}</span>
+    </button>
+  </div>
+  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+</header>
+
+<main class="recipes-main">
+  <router-outlet></router-outlet>
+</main>
